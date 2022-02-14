@@ -311,21 +311,17 @@ def custom_equality(some_list, another_list):
     else:   
         return False
 
-# print(custom_equality(['Jan', 'Feb', 'Mar'], ['Jan', 'Feb', 'Mar']))
+print(custom_equality(['Jan', 'Feb', 'Mar'], ['Jan', 'Feb', 'Mar']))
 
 
-# def shouted_text(text):
-#     new_text = text.upper()
-#     print("new text(before) = ", new_text)
-#     new_text = new_text + "!"
-#     # new_text.append("!") # won't work because it is a string
+def shouted_text(text):
+    new_text = text.upper()
+    print("new text(before) = ", new_text)
+    new_text = new_text + "!"
+    # new_text.append("!") # won't work because it is a string
  
 
-#     return melon_data
-# text = 'shouted'
-# print("new text(after) = ", shouted_text(text))
+    return melon_data
+text = 'shouted'
+print("new text(after) = ", shouted_text(text))
 
-def power(num, pow=2):
-     return num ** pow
-# print(power(3))
-print(power(num=3, pow=2))
