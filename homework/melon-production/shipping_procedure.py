@@ -50,6 +50,9 @@ def assess_and_pack_orders():
 
         # Each line should be in the format:
         # <melon name>: <quantity>
+        # l = line.rstrip().split(':')
+        # melon= l[0]
+        # quan = l[1]
         melon_type, quantity = line.rstrip().split(':')
         quantity = int(quantity)
 

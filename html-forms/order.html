@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html>
+    <head>
+        <title>
+            Order a Melongram!
+        </title>
+    </head>
+
+    <body>
+        <img src="https://www.hy-vee.com/webres/Image/catalog/thumbnail.aspx?img=mlnmdly.jpg&w=500">
+        <h1>
+            Order a Melongram
+        </h1>
+        <p>
+            There's no better way to show a loved one you care than with a Melongram.
+        </p>
+
+        <p>
+            Each Melongram comes with a custom message printed on high-quality cardstock
+            and your choice of a hand-picked, premium melon.
+        </p>
+
+        <h2>
+            Melon Options
+        </h2>
+        
+        <p>
+            Choose from one of these melons:
+        </p>
+
+        <table> 
+            <tr> 
+                <td> 
+                    Watermelon      
+                </td>
+                <td> 
+                    $1,200.00
+                </td>
+            
+            </tr>
+            <tr> 
+                <td> 
+                    Canteloupe
+                </td>
+                <td> 
+                    $400.00
+                </td>
+
+            </tr>
+            <tr> 
+                <td> 
+                    Honeydew
+                </td>
+                <td> 
+                    $1,750,00.00
+                </td>
+                
+            </tr>
+        </table>
+
+        <h2>Order Form</h2>
+
+        <form>
+            <p><label for="customer_name">Your name</label><input type="text" name="name" id="customer_name"></p>
+            <p><label for="recipient_name">Who are we sending this to? </label><input type="text" name="recipient" id="recipient_name"></p>
+            <p>Choose a melon: 
+                <select name=" melon">
+                    <option value ="watermelon">Watermelon</option>
+                    <option value ="cantelope">Cantelope</option>
+                    <option value ="honeydew">Honeydew</option>
+                </select>
+            </p>
+
+            <p>
+                When should we deliver?  
+                <input type="radio" name="time" value="am" id="delivery_am"><label for="delivery_am">Morning</label>
+                <input type="radio" name="time" value="pm" id="delivery_evening" ><label for="delivery_evening">Evening</label>
+                <input type="radio" name="time" value="any" id ="delivery_any_time" ><label for = "delivery_any_time" >Any time</label>
+            </p>
+            
+            <p>
+                Enter your message <textarea name="message"></textarea>
+            </p>
+
+            <p>
+                Subscribe to our newsletter: <input type="checkbox" name="subscribe" value="yes" id = "subscribe_box"><label for= "subscribe_box"> Yes </label>
+            </p>
+
+            <button type="submit">Submit Query</button>
+
+        </form>
+    </body>
+</html>
+
