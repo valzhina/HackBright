@@ -117,15 +117,18 @@ class Melon:
 def make_melons(melon_types):
     """Returns a list of Melon objects."""
 
-    m1 = Melon('yw', 7, 10, 3, 'harvester')
-    m2 = Melon('yw', 7, 10, 3, 'harvester')
-    m3 = Melon('yw', 7, 10, 3, 'harvester')
-    m4 = Melon('yw', 7, 10, 3, 'harvester')
-    m5 = Melon('yw', 7, 10, 3, 'harvester')
-    m6 = Melon('yw', 7, 10, 3, 'harvester')
-    m7 = Melon('yw', 7, 10, 3, 'harvester')
-    m8 = Melon('yw', 7, 10, 3, 'harvester')
-    m9 = Melon('yw', 7, 10, 3, 'harvester')
+    melons_by_id = make_melon_type_lookup(melon_types)
+
+    m1 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m2 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m3 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m4 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m5 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m6 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m7 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m8 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+    m9 = Melon(melons_by_id['yw'], 8, 7, 2, 'Sheila')
+
     m = [m1, m2, m3, m4, m5, m6, m7, m8, m9]
 
     return (m)
