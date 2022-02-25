@@ -46,11 +46,16 @@ def read_melon_types_from_file(filepath):
 
     Dictionary will be {id: Melon object}
     """
+    # a, *b = 2, 5, 7
+    # a = 2
+    # b = [5,7]
 
-    melon_types = {}
+    melon_types_dic = {}
 
     with open(filepath) as file:
         for line in file:
+            # line = [cren|Hybrid|Crenshaw|2|http://www.rareseeds.com/assets/1/14/DimRegular/crenshaw.jpg|green|1]
+            line = line.strip().split("|")
             (
                 melon_id,
                 melon_type,
@@ -59,14 +64,15 @@ def read_melon_types_from_file(filepath):
                 img_url,
                 color,
                 seedless,
-            ) = line.strip().split("|")
-
+            ) = line
+            
             price = float(price)
 
-            # For seedless, we want to turn "1" => True, otherwise False
-            seedless = seedless == "1"
+            # For seedless, we want to turn "1" => True, otherwise False            
+            tmp = seedless == "1"
+            seedless = tmp
 
-            melon_types[melon_id] = Melon(
+            melon_types_dic[melon_id] = Melon(
                 melon_id,
                 melon_type,
                 common_name,
@@ -76,7 +82,7 @@ def read_melon_types_from_file(filepath):
                 seedless,
             )
 
-    return melon_types
+    return melon_types_dic
 
 
 def get_all():
@@ -89,21 +95,21 @@ def get_all():
     [<Melon: 2, Crenshaw, $2.00>, <Melon: 14, Ali Baba Watermelon, $2.50>, <Melon: 15, Ancient Watermelon, $3.00>, <Melon: 16, Arkansas Black Watermelon, $4.00>, <Melon: 21, Chris Cross Watermelon, $2.50>, <Melon: 23, Congo Watermelon, $2.00>, <Melon: 25, Crimson Sweet Watermelon, $1.75>, <Melon: 27, Desert King Watermelon, $2.00>, <Melon: 28, Dixie Queen Watermelon, $2.00>, <Melon: 29, Moonbeam Watermon, $2.25>, <Melon: 30, Fairfax Watermelon, $2.00>, <Melon: 32, Golden Honey Watermelon, $2.50>, <Melon: 33, Golden Midget Watermelon, $2.50>, <Melon: 34, Hopi Yellow Watermelon, $2.50>, <Melon: 35, Irish Grey Watermelon, $2.50>, <Melon: 37, Jubilee Bush Watermelon, $2.50>, <Melon: 38, Jubilee Watermelon, $2.50>, <Melon: 42, Ledmon Watermelon, $3.00>, <Melon: 44, Malali Watermelon, $2.00>, <Melon: 45, Melitopolski Watermelon, $3.00>, <Melon: 48, Montenegro Man Melon, $2.50>, <Melon: 49, Moon and Stars Watermelon, $2.50>, <Melon: 52, Navajo Winter Watermelon, $3.00>, <Melon: 54, Orangeglo Watermelon, $2.75>, <Melon: 56, Royal Golden Watermelon, $2.25>, <Melon: 57, Scaly Bark Watermelon, $4.00>, <Melon: 58, Stone Mountain Watermelon, $3.00>, <Melon: 59, Sugar Baby Watermelon, $2.50>, <Melon: 60, Takii Gem Watermelon, $2.75>, <Melon: 61, Tendergold Watermelon, $2.50>, <Melon: 62, Texas Golden Watermelon, $2.75>, <Melon: 63, Thai Rom Dao Watermelon, $2.50>, <Melon: 64, Tom Watson Watermelon, $2.25>, <Melon: 66, White Wonder Watermelon, $2.50>, <Melon: 67, Wilson's Sweet Watermelon, $2.50>]
     """
 
-    # This relies on access to the global dictionary `melon_types`
+    # This relies on access to the global dictionary `melon_types_dic`
 
-    return list(melon_types.values())
+    return list(melon_types_dic.values())
 
 
 def get_by_id(melon_id):
     """Return a melon, given its ID."""
 
-    # This relies on access to the global dictionary `melon_types`
+    # This relies on access to the global dictionary `melon_types_dic`
 
-    return melon_types[melon_id]
+    return melon_types_dic[melon_id]
 
 
 # Dictionary to hold types of melons.
 #
 # Format is {id: Melon object, ... }
 
-melon_types = read_melon_types_from_file("melons.txt")
+melon_types_dic = read_melon_types_from_file("melons.txt")

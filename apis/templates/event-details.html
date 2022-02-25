@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}Event Details | {{ result["name"] }} {% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      {# TODO: Replace EVENT NAME with the event's name #}
+      <h2>{{ result['name'] }}</h2>
+
+      <p>
+        {{ result['description'] }}
+      </p>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-4">
+ 
+      <img src="{{ result['images'][0]['url'] }}">
+
+      <p>
+
+        <a href= "{{ result['url'] }}" target= "_blank">
+          Go to Ticketmaster page
+        </a>
+      </p>
+    </div>
+
+    <div class="col">
+      <h3>Start date</h3>
+      {# TODO: Replace EVENT START DATE with event's start date #}
+      <p>EVENT START DATE</p>
+
+      <h3>Venues</h3>
+      <ul>
+        {#
+          TODO: Remove placeholder <li> tag & loop over all event venues to
+          generate an `li` element for each venue.
+
+          Each `li` should contain the name of a venue.
+        #}
+        <li>PLACEHOLDER</li>
+      </ul>
+
+      <h3>Classifications</h3>
+      <ul>
+        {#
+          TODO: Remove placeholder <li> tag & loop over all event
+          classifications to generate an `li` element for each classification.
+
+          Each `li` should contain the name of the classification's *genre*.
+        #}
+        <li>PLACEHOLDER</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
