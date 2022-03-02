@@ -2,6 +2,7 @@
 
 
 def output_all_items(items):
+    """ bfhfghrt """
     for item in items:
         print(item)
 
