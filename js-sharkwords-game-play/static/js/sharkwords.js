@@ -19,9 +19,10 @@ let numWrong = 0;
 // Loop over the chars in `word` and create divs.
 //
 
-const createDivsForChars = word => {
+const createDivsForChars = (word) => {
+  //Looking for section containers in HTML//
   const wordContainer = document.querySelector('#word-container');
-  for (const letter of word) {
+  for (let letter of word) {
     wordContainer.insertAdjacentHTML('beforeend', `<div class="letter-box ${letter}"></div>`);
   }
 };
@@ -50,9 +51,15 @@ const isLetterInWord = letter => document.querySelector(`div.${letter}`) !== nul
 // Called when `letter` is in word. Update contents of divs with `letter`.
 //
 const handleCorrectGuess = letter => {
-  // Replace this with your code
+  if (isLetterInWord(letter)) {
+    const letters = document.querySelectorAll(`div.${letter}`);
+    for (let theLetter of letters){
+      theLetter.innerHTML = `${letter}`;
+    }
+  }
 };
-
+/* <div class="letter-box h"> h</div>
+<div class="letter-box h"> h</div> */
 //
 // Called when `letter` is not in word.
 //
@@ -62,7 +69,17 @@ const handleCorrectGuess = letter => {
 
 const handleWrongGuess = () => {
   numWrong += 1;
-  // Replace this with your code
+  if (numWrong === 5) {
+    for (const button of document.querySelectorAll("button")) {
+      disableLetterButton(button);
+    }
+
+    const hiddenLink = document.querySelector("#play-again");
+    hiddenLink.preventDefault();
+
+  } else {
+      return numWrong;
+  }
 };
 
 //  Reset game state. Called before restarting the game.
@@ -81,9 +98,23 @@ const resetGame = () => {
 
   for (const button of document.querySelectorAll("button")) {
     // add an event handler to handle clicking on a letter button
-    // YOUR CODE HERE
+    button.addEventListener('click', (evt) => {
+      const letter = button.innerHTML;
+      disableLetterButton(button);
+      if (isLetterInWord(letter)) {
+        handleCorrectGuess(letter);
+      }
+      else {
+        handleWrongGuess();
+      }
+    });
   }
 
   // add an event handler to handle clicking on the Play Again button
   // YOUR CODE HERE
 })();
+
+// let dog_name = ourDog.name
+// console.log(dog_name)
+
+// ourDog.name = "Keesah"
