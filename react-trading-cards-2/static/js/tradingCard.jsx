@@ -73,7 +73,6 @@ function TradingCardContainer() {
       .then((response) => response.json())
       .then((cardData) => setCards(cardData.cards));
       
-    
   }, []);
 
   const tradingCards = [];

@@ -78,6 +78,7 @@ def get_cards_json():
 @app.route("/add-card", methods=["POST"])
 def add_card():
     """Add a new card to the DB."""
+   
     name = request.get_json().get("name")
     skill = request.get_json().get("skill")
 
