@@ -1,8 +1,9 @@
 """Server for fertility app."""
 
 from flask import (Flask, render_template, request, flash, session, redirect)
+from datetime import datetime, date, time
 
-from model import connect_to_db, db
+from model import connect_to_db, db, User, Temperature, Supplement, Meal
 # import crud
 
 from jinja2 import StrictUndefined
@@ -33,8 +34,8 @@ MOST_LOVED_ACTIVITY = {
 @app.route("/")
 def show_index():
     """Return homepage."""
-    if 'name' in session:
-        return redirect("/features")
+    # if 'name' in session:
+    #     return redirect("/features")
     return render_template('homepage.html')
 
 
@@ -42,9 +43,23 @@ def show_index():
 def list_features():
     """Return page showing all the features app has to offer"""
 
-    feature_list = features.get_all()
-    return render_template("all_features.html",
-                           feature_list=feature_list)
+    # feature_list = features.get_all()
+    return render_template("all_features.html")#,
+                        #    feature_list=feature_list)
+
+
+@app.route("/features/<feature_id>")
+def show_feature(feature_id):
+    """Return page showing the details of a given feature.
+
+    Show info about a feature. Also, provide a button to enter the feature.
+    """
+
+    #DM: replaced ... to melon_id
+    feature = melons.get_by_id(melon_id)
+    print(melon)
+    return render_template("melon_details.html",
+                           display_melon=melon)
 
 # @app.route("/get-name")
 # def get_name():
@@ -53,19 +68,18 @@ def list_features():
 #     return redirect('/all_features')
 
 
-@app.route("/all_features")
-def top_activities():
-    """Return page showing top activities"""
-    if 'name' in session:
-        return render_template("first-page.html", activity = MOST_LOVED_ACTIVITY)
-    return redirect("/")
+# @app.route("/more_features")
+# def top_activities():
+#     """Return page showing top activities"""
+#     if 'name' in session:
+#         return render_template("first-page.html", activity = MOST_LOVED_ACTIVITY)
+#     return redirect("/")
     
 
 # User Routs...
 @app.route("/register", methods=["GET"])
 def show_register():
     """Show register form."""
-
     return render_template("register.html")
 
 
@@ -73,18 +87,18 @@ def show_register():
 def process_register():
     """Register user information to DB """
 
-    first_name = request.form.get('addFirstName')
-    last_name = request.form.get('addLastName')
-    email = request.form.get('addEmail')
-    password = request.form.get('addPasword')
-    confirm_password = request.form.get('addConfirmPasword')
-    # profile_proto_url = request.form.get('addPhoto')
-    # created_at = date and time
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    confirm_password = request.form.get('re_password')
+
 
     user = User.query.filter_by(email = email).first()
 
-    if user != NULL:
+    if user != None:
         flash('An account with this email already exists')
+        return redirect('/login')
     
     if password != confirm_password:
         flash('Password does not match, please try again')
@@ -97,11 +111,17 @@ def process_register():
                         # profile_proto_url
                         created_at = datetime.today())
     
-    # set password for new user
-    db.session.add(new_user)
-    db.session.commit()
+        # set password for new user
+        # set password securely
+        
+        db.session.add(new_user)
+        db.session.commit()
 
-    first_time_user = User.query.filter
+        first_time_user = User.query.filter_by(email = email).first()
+        session['logged_in_user_id'] =  first_time_user.user_id
+        flash('Login successful')
+
+    return redirect('/features')
         
 
 @app.route("/login", methods=["GET"])
@@ -117,11 +137,10 @@ def process_login():
 
     email = request.form.get('email')
     password = request.form.get('password')
-    user = user.get_by_email(email) 
-    # user = User.query.filter_by(email = email).first()
+    user = User.query.filter_by(email = email).first()
   
     if user:
-        if pasword == user.password:
+        if password == user.password:
             session['logged_in_customer_name'] = user.first_name
             flash('Login successful')
             return redirect('/features')
@@ -143,6 +162,7 @@ def process_logout():
 
 
 if __name__ == "__main__":
+    connect_to_db(app)
     app.run(
         host="0.0.0.0",
         use_reloader=True,

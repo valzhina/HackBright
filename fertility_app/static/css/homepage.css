@@ -3,7 +3,7 @@
 /* The body has an image that spans the entire size of the page.
    Everything is centered and in white. */
 
-   body {
+body {
     background: #333 url("/static/img/joanna-kosinska-7mwM4X9HUnE-unsplash.jpg");
     background-size: cover;
 

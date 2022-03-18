@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<body>
+    <form class="form" method="GET">
+    
+        <h2 class="form-feature">Temperature 1</h2>
+      
+        <div>
+          <label for="temperatur" class="sr-only">Add your temperature</label>
+          <input type="temperatur"
+                 name="temperatur"
+                 class="form-control input-lg"
+                 placeholder="temperatur"
+                 required
+                 autofocus>
+        </div>
+    
+    </form>
+
+    <form class="form" method="GET">
+    
+        <h2 class="form-feature">Supplement 1</h2>
+      
+        <div>
+          <label for="supplement" class="sr-only">Add your supplement</label>
+          <input type="supplement"
+                 name="supplement"
+                 class="form-control input-lg"
+                 placeholder="supplement"
+                 required
+                 autofocus>
+        </div>
+    
+    </form>
+
+</body>
+
+
+{% endblock %}

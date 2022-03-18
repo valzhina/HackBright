@@ -15,7 +15,8 @@ class User(db.Model):
                         autoincrement=True,
                         primary_key=True,
                         unique=True)
-    full_name = db.Column(db.String(100), nullable = False)
+    first_name = db.Column(db.String(100), nullable = False)
+    last_name = db.Column(db.String(100), nullable = False)
     email = db.Column(db.String(100), unique=True, nullable = False)
     password = db.Column(db.String(100), nullable = False)
     profile_proto_url = db.Column(db.String(100), nullable = True, default = '/static/img/TBD_default-profile-photo.png')
@@ -57,7 +58,10 @@ class Supplement(db.Model):
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     supplement_entry = db.Column(db.String(100), nullable=True)
+    supplement_dose = db.Column(db.String(100), nullable=True)
+    supplement_type = db.Column(db.String(100), nullable=True)
     date_time = db.Column(db.String, nullable = False, default=datetime.today())
+    img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-Supimage.png')
 
     user = db.relationship('User', backref="supplements")
 
@@ -74,7 +78,9 @@ class Meal(db.Model):
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     meal_entry = db.Column(db.String(100), nullable=True)
+    type_of_meal = db.Column(db.String(100), nullable=True)
     date_time = db.Column(db.String, nullable = False, default=datetime.today())
+    img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-mealimage.png')
 
     user = db.relationship('User', backref="meals")
 
