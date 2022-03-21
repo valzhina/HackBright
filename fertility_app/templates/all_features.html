@@ -1,31 +1,40 @@
 {% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+  {% block head %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/css/all_features.css">
+  {% endblock %}
 
 {% block body %}
 
-
-<body>
-    <form class="form" method="GET">
+    <form class="form" action = "/temperatures" method="GET">
     
-        <h2 class="form-feature">Temperature 1</h2>
+        <h2 class="form-feature">Temperature</h2>
       
         <div>
-          <label for="temperatur" class="sr-only">Add your temperature</label>
-          <input type="temperatur"
-                 name="temperatur"
+          <label for="temperature" class="feature">Add your temperature</label>
+          <input type="text"
+                 name="temperature"
                  class="form-control input-lg"
-                 placeholder="temperatur"
+                 placeholder="temperature"
                  required
                  autofocus>
         </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Temperature
+        </button>
     
     </form>
 
-    <form class="form" method="GET">
+
+    <form class="form" action = "/supplements" method="GET">
     
-        <h2 class="form-feature">Supplement 1</h2>
+        <h2 class="form-feature">Supplement</h2>
       
         <div>
-          <label for="supplement" class="sr-only">Add your supplement</label>
+          <label for="supplement" class="feature">Add your supplement</label>
           <input type="supplement"
                  name="supplement"
                  class="form-control input-lg"
@@ -33,10 +42,10 @@
                  required
                  autofocus>
         </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Supplement
+        </button>
     
     </form>
-
-</body>
-
 
 {% endblock %}

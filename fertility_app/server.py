@@ -1,6 +1,6 @@
 """Server for fertility app."""
 
-from flask import (Flask, render_template, request, flash, session, redirect)
+from flask import Flask, render_template, request, flash, session, redirect
 from datetime import datetime, date, time
 
 from model import connect_to_db, db, User, Temperature, Supplement, Meal
@@ -22,20 +22,11 @@ app.jinja_env.undefined = StrictUndefined
 
 # app.jinja_env.auto_reload = True
 
-MOST_LOVED_ACTIVITY = {
-    "kate": {
-        "img": "https://unsplash.com/photos/uM18y03NkNg",
-        "name": "Kate_Hliznitsova",
-        "num_loves": 3,
-    },
-}
 
 #  Creating this first route and view functions
 @app.route("/")
 def show_index():
     """Return homepage."""
-    # if 'name' in session:
-    #     return redirect("/features")
     return render_template('homepage.html')
 
 
@@ -44,36 +35,43 @@ def list_features():
     """Return page showing all the features app has to offer"""
 
     # feature_list = features.get_all()
+    # if 'logged_in_user_id' not in  session:
+    #     flash("Please login") 
+    #     return redirect('/login')
     return render_template("all_features.html")#,
                         #    feature_list=feature_list)
 
 
-@app.route("/features/<feature_id>")
-def show_feature(feature_id):
-    """Return page showing the details of a given feature.
+@app.route("/temperatures", methods=["GET"])
+def process_temperature():
+    """Add user's temperature to DB """
 
-    Show info about a feature. Also, provide a button to enter the feature.
-    """
+    temperature = request.args.get('temperature')
+    user_id = session['logged_in_user_id']
+    # created_at = datetime.today())
 
-    #DM: replaced ... to melon_id
-    feature = melons.get_by_id(melon_id)
-    print(melon)
-    return render_template("melon_details.html",
-                           display_melon=melon)
+    """MOve to crud"""
+    new_temperature = Temperature(
+                        user_id = user_id,
+                        temperature_entry = int(temperature),
+                        date_time = datetime.today())
 
-# @app.route("/get-name")
-# def get_name():
-#     session['name'] = request.args["name"]
-    
-#     return redirect('/all_features')
+    db.session.add(new_temperature)
+    db.session.commit()
 
+    return redirect('/features')
 
-# @app.route("/more_features")
-# def top_activities():
-#     """Return page showing top activities"""
-#     if 'name' in session:
-#         return render_template("first-page.html", activity = MOST_LOVED_ACTIVITY)
-#     return redirect("/")
+# @app.route("/features/<feature_id>")
+# def show_feature(feature_id):
+#     """Return page showing the details of a given feature.
+
+#     Show info about a feature. Also, provide a button to enter the feature.
+#     """
+
+#     feature = feature.get_by_id(feature_id)
+#     print(feature)
+#     return render_template("feature_action.html",
+
     
 
 # User Routs...
@@ -92,18 +90,22 @@ def process_register():
     email = request.form.get('email')
     password = request.form.get('password')
     confirm_password = request.form.get('re_password')
+    # print(first_name)
 
 
     user = User.query.filter_by(email = email).first()
-
-    if user != None:
+    # print('smth here', confirm_password)
+    if user:
         flash('An account with this email already exists')
         return redirect('/login')
     
     if password != confirm_password:
         flash('Password does not match, please try again')
+        # return render_template('register.html')
+        return redirect('/register')
 
     else:
+        """Move to crud"""
         new_user = User(first_name = first_name,
                         last_name = last_name,
                         email = email,
@@ -117,8 +119,8 @@ def process_register():
         db.session.add(new_user)
         db.session.commit()
 
-        first_time_user = User.query.filter_by(email = email).first()
-        session['logged_in_user_id'] =  first_time_user.user_id
+        # first_time_user = User.query.filter_by(email = email).first()
+        session['logged_in_user_id'] = new_user.user_id
         flash('Login successful')
 
     return redirect('/features')
@@ -141,12 +143,11 @@ def process_login():
   
     if user:
         if password == user.password:
-            session['logged_in_customer_name'] = user.first_name
+            session['logged_in_user_id'] = user.user_id
             flash('Login successful')
             return redirect('/features')
         else:
             flash('Incorrect password')
-            
     else:
         flash('Incorrect login')
 
@@ -160,6 +161,9 @@ def process_logout():
     return redirect('homepage.html')   
 
 
+# @app.route("/chart")
+# def chart_build_test():
+#     return render_template('chartjs.html')   
 
 if __name__ == "__main__":
     connect_to_db(app)

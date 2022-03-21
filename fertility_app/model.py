@@ -34,12 +34,12 @@ class Temperature(db.Model):
     """Stores all the entries of temperature that are written for each user"""
     __tablename__ = 'body_temperature'
 
-    temperature__entry_id = db.Column(db.Integer,
+    temperature_entry_id = db.Column(db.Integer,
                         autoincrement=True,
                         primary_key=True,
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    temperature__entry = db.Column(db.String(10), nullable=True)
+    temperature_entry = db.Column(db.String(10), nullable=True)
     date_time = db.Column(db.String, nullable = False, default=datetime.today())
 
     user = db.relationship('User', backref="body_temperature")
@@ -119,3 +119,4 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     db.create_all()
+    

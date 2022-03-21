@@ -1,0 +1,12 @@
+/* Fertility features pages */
+
+/* The body has an image that spans the entire size of the page.
+   Everything is centered and in white. */
+
+   body {
+    background: #333 url("/static/img/kate-hliznitsova-uM18y03NkNg-unsplash.jpg");
+    background-size: cover;
+
+    color: white;
+    text-align: center;
+}
