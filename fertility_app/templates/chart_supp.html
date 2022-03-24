@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}ChartJS and D3 Demos{% endblock %}
+
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+  
+  <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <link rel='stylesheet' href='static/css/supp_chart.css'>
+{% endblock %}
+
+{% block body %}
+
+<div class="table_vis">
+
+  <h1>Supplement Char</h1>
+  <p class="question">SubTitle</p>
+
+</div>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    {% for item in supp_time_unique %}
+      <th>{{item}}</th>
+    {% endfor %}
+  </tr>
+
+  {% for line in data %}
+  <tr>
+    <td>{{line.supplement_entry}}</td>
+    {% for item in supp_time_unique %}
+      {% if item == line.supplement_time %}
+        <td>{{line.supplement_dose}} {{line.supplement_dose_type}}</td>
+      {% else %}
+        <td></td>
+      {% endif %}
+    {% endfor %}
+
+  </tr>
+  {% endfor %}
+</table>
+
+<div class="table_links">
+
+  <a href="/page1" class="btn btn-lg btn-primary">click</a>
+  <a href="/page2" class="btn btn-lg btn-primary">click</a>
+
+</div>
+
+
+  <script src="/static/js/chart_supp.js"></script>
+  <footer>
+    <p></p>
+  </footer>
+{% endblock %}

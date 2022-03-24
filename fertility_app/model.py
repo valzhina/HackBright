@@ -40,12 +40,12 @@ class Temperature(db.Model):
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     temperature_entry = db.Column(db.String(10), nullable=True)
-    date_time = db.Column(db.String, nullable = False, default=datetime.today())
+    temp_date = db.Column(db.String, nullable = False, default=datetime.today())
 
     user = db.relationship('User', backref="body_temperature")
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} temperature__entry={self.temperature__entry} >'
+        return f'<Temp user_id={self.user_id} temperature_entry={self.temperature_entry} >'
 
 
 class Supplement(db.Model):
@@ -59,14 +59,15 @@ class Supplement(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     supplement_entry = db.Column(db.String(100), nullable=True)
     supplement_dose = db.Column(db.String(100), nullable=True)
-    supplement_type = db.Column(db.String(100), nullable=True)
-    date_time = db.Column(db.String, nullable = False, default=datetime.today())
-    img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-Supimage.png')
+    supplement_dose_type = db.Column(db.String(100), nullable=True)
+    supplement_time = db.Column(db.String(100), nullable=True)
+    date_started = db.Column(db.String, nullable = False, default=datetime.today())
+    # img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-Supimage.png')
 
     user = db.relationship('User', backref="supplements")
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} supplement_entry={self.supplement_entry} >'
+        return f'<Supp user_id={self.user_id} supplement_entry={self.supplement_entry} >'
 
 class Meal(db.Model):
     """Stores all the entries of meals that are written for each user"""
@@ -85,7 +86,7 @@ class Meal(db.Model):
     user = db.relationship('User', backref="meals")
 
     def __repr__(self):
-        return f'<User user_id={self.user_id} meal_entry={self.meal_entry}>'
+        return f'<Meal user_id={self.user_id} meal_entry={self.meal_entry}>'
 
 # class Water(db.Model):
 #     """Stores all the entries of water that are written for each user"""
@@ -119,4 +120,3 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     db.create_all()
-    

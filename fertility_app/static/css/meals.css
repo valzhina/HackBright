@@ -1,0 +1,11 @@
+/* Fertility Login_register page */
+
+/* The body has an image that spans the entire size of the page.
+   Everything is centered and in white. */
+
+   body {
+    background: #333 url("/static/img/katja-vogt-HIuZYCEBZBE-unsplash.jpg");
+    background-size: cover;
+
+    color: white;
+    text-align: center;

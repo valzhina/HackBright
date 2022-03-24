@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+
+  {% block head %}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/css/meals.css">
+  {% endblock %}
+
+    
+  {% block body %}
+
+    <h2 class="form-feature">Meal Journal</h2>
+
+    <div>
+      <label for="type_of_meal" class="entry">Your meal today</label>
+      <form class="form" action ="/meal_journal_input" method="post" enctype="multipart/form-data">
+
+        <h3 class="form-feature">Breakfast</h3>
+        <input type="file" name = "my-file">
+        <input value ="breakfast" name = "type_of_meal">
+        <input type="submit">
+    
+      </form>
+    </div>
+
+    <div>
+      <label for="type_of_meal" class="entry">Your meal today</label>
+      <form class="form" action = "/meal_journal_input" method="post" enctype="multipart/form-data">
+
+        <h3 class="form-feature">Lunch</h3>
+        <input type="file" name = "my-file">
+        <input value ="lunch" name = "type_of_meal">
+        <input type="submit">
+    
+      </form>
+    </div>
+
+    <div>
+      <label for="type_of_meal" class="entry">Your meal today</label>
+      <form class="form" action = "/meal_journal_input" method="post" enctype="multipart/form-data">
+
+        <h3 class="form-feature">Dinner</h3>
+        <input value ="dinner" name = "my-file">
+        <input type="text" name = "type_of_meal">
+        <input type="submit">
+    
+      </form>
+    </div>
+
+    
+
+    
+    <a class="btn btn-primary" href="/will_see">Future Icon Maybe </a>
+
+  {% endblock %}  
