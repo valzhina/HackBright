@@ -3,9 +3,15 @@
 /* The body has an image that spans the entire size of the page.
    Everything is centered and in white. */
 
-   body {
-    background: #333 url("/static/img/katja-vogt-HIuZYCEBZBE-unsplash.jpg");
-    background-size: cover;
+body {
+   background: #333 url("/static/img/katja-vogt-HIuZYCEBZBE-unsplash.jpg");
+   background-size: cover;
 
-    color: white;
-    text-align: center;
+   color: white;
+   text-align: center;
+}
+   
+div.meal-summary img {
+   width: 15em;
+   /* height: 15em; */
+}

@@ -3,6 +3,8 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from datetime import datetime, date, time
 
+from sqlalchemy import Date, cast
+
 from model import connect_to_db, db, User, Temperature, Supplement, Meal
 # import crud
 
@@ -140,15 +142,15 @@ def process_supplements_chart():
 
     supplement_details = Supplement.query.filter(Supplement.user_id == user_id).all()
     
-    supp = []
-    supp_dose = []
-    supp_dose_type = []
+    # supp = []
+    # supp_dose = []
+    # supp_dose_type = []
     supp_time = []
     
     for entry in supplement_details:
-        supp.append(entry.supplement_entry)
-        supp_dose.append(entry.supplement_dose)
-        supp_dose_type.append(entry.supplement_dose_type)
+        # supp.append(entry.supplement_entry)
+        # supp_dose.append(entry.supplement_dose)
+        # supp_dose_type.append(entry.supplement_dose_type)
         supp_time.append(entry.supplement_time)
 
     supp_time_unique = list(set(supp_time))
@@ -164,10 +166,30 @@ def process_supplements_chart():
 #########################################################################
 
 
-@app.route("/meal_journal")
-def show_meal_journal():
-    """Return Meal Page"""
-    return render_template('meals.html')
+# @app.route("/meal_journal")
+# def show_meal_journal():
+#     """Return Meal Page"""
+#     return render_template('meals.html')
+
+@app.route("/meal_info_day", methods = ["POST"])
+def get_meals_info_day():
+    """smth"""
+    day = request.form.get('day').split(" (")[0]
+    day = datetime.strptime(day, "%a %b %d %Y %H:%M:%S GMT%z")
+
+    user_id = session['logged_in_user_id']
+    meals = Meal.query.filter(Meal.user_id == user_id, cast(Meal.date_time, Date) == day.date()).all()
+
+    data = {'ingredient':[],
+            'meal_type':[],
+            'img':[]}
+    for mil in meals:
+        data['ingredient'].append(mil.meal_entry)
+        data['meal_type'].append(mil.type_of_meal)
+        data['img'].append(mil.img_url)
+
+    return jsonify(data)
+    
 
 
 @app.route("/meal_journal_input", methods=["POST"])
@@ -176,12 +198,11 @@ def process_meal_journal_input():
 
     user_id = session['logged_in_user_id']
 
-    meal_entry = request.form.get('meal_entry')
-    type_of_meal = request.form.get('type_of_meal')
-    date_time = request.form.get('date_time')
-    img_url = request.form.get('my-file')
-
-    my_file = request.files['my-file']
+    ingredients = request.form.get('ingredients')
+    meal = request.form.get('meal_type')
+    my_file = request.files['my_file']
+    # print(ingredients, meal)
+    # print("\n" * 5)
 
     result = cloudinary.uploader.upload(my_file,
                                         api_key=CLOUDINARY_KEY,
@@ -193,39 +214,48 @@ def process_meal_journal_input():
     """Move to crud"""
     new_meal = Meal(
                 user_id = user_id,
-                meal_entry = meal_entry,
-                type_of_meal = type_of_meal,
-                date_time = date_time,
+                meal_entry = ingredients,
+                type_of_meal = meal,
+                date_time = datetime.today(),
                 img_url = img_url)
 
     db.session.add(new_meal)
     db.session.commit()
 
-    return redirect('/meal_journal')
+    
+    user_id = session['logged_in_user_id']
+    meals = Meal.query.filter(Meal.user_id == user_id).all()
+    # data = {'ingredient':[],
+    #         'meal_type':[],
+    #         'img':[]}
+    # for mil in meals:
+    #     data['ingredient'].append(mil.meal_entry)
+    #     data['meal_type'].append(mil.type_of_meal)
+    #     data['img'].append(mil.img_url)
 
+    
+    # return redirect("/meal_journal")
+
+    # return data
+
+    return img_url
 
 @app.route("/meal_journal")
 def process_meals_preview():
-    """Get meals details from db and render it"""
+    """Return Meal Page"""
 
-    user_id = session['logged_in_user_id']
-
-    meal_details = Meal.query.filter(Meal.user_id == user_id).all()
+    return render_template("meals.html")
     
-    ml_entry = []
-    ml_type = []
-    ml_date_time = []
-    ml_img_url = []
-    
-    for entry in meal_details:
-        ml_entry.append(entry.meal_entry)
-        ml_type.append(entry.type_of_meal)
-        ml_date_time.append(entry.date_time)
-        ml_img_url.append(entry.img_url)
 
 
-    return render_template("meals.html", supplement = supp, s_dose = supp_dose, s_type = supp_type, supplement_details = supplement_details)
-    
+#########################################################################
+#                        Calendar                                       #
+#########################################################################
+
+@app.route("/calendar")
+def show_calendar():
+    """Return Calendar Page"""
+    return render_template('all_calendar.html')
 
 #########################################################################
 #                       USER REGISTER                                   #
