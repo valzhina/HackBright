@@ -59,11 +59,11 @@ const fertilityCalendar = () => {
 
     for(let i = 1; i <= lastDay; i++){
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
-            days += `<div class="today">${i}</div>`;
+            days += `<div id="${i}" class="today day">${i}</div>`;
         }
         else{
             // create a div element and pass i vairable  
-            days += `<div>${i}</div>`;
+            days += `<div class="day" id="${i}" >${i}</div>`;
         }
     }
     // monthDays.innerHTML = days;
@@ -87,9 +87,24 @@ document.querySelector('.next').addEventListener('click',() => {
     fertilityCalendar();
 });
 
-// document.querySelector('.days').addEventListener('click',() => {
+
+// document.getElementById('.days').addEventListener('click',() => {
    
 //     fertilityCalendar();
 // });
 
 fertilityCalendar();
+
+const dayElements = document.querySelectorAll('.day');  
+
+// condst day_
+// console.log(dayElements);
+
+for (let day of dayElements) {
+    day.addEventListener('click',() => {
+        console.log(day.id)
+    });
+   
+    //         fertilityCalendar();
+    //     });
+}
