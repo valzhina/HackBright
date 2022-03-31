@@ -88,14 +88,63 @@ class Meal(db.Model):
     def __repr__(self):
         return f'<Meal user_id={self.user_id} meal_entry={self.meal_entry}>'
 
-# class Water(db.Model):
-#     """Stores all the entries of water that are written for each user"""
+class Menstruation(db.Model):
+    """Stores all the entries of menstruation that are written for each user"""
 
-# class Menstruation(db.Model):
-#     """Stores all the entries of menstruation that are written for each user"""
+    __tablename__ = 'period'
 
-# class Notes(db.Model):
-#     """Stores all the entries of text that are written for each user"""
+    period__entry_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True,
+                        unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    period_start = db.Column(db.String, nullable = False, default=datetime.today())
+    period_length = db.Column(db.Integer, nullable=False)
+
+    user = db.relationship('User', backref="period")
+
+    def __repr__(self):
+        return f'<Period user_id={self.user_id} period_start={self.period_start}>'
+
+
+class Water(db.Model):
+    """Stores all the entries of water that are written for each user"""
+
+    __tablename__ = 'hydrating'
+
+    water__entry_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True,
+                        unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    water_entry = db.Column(db.String(100), nullable=True)
+    date_time = db.Column(db.String, nullable = False, default=datetime.today())
+    img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-glassimage.png')
+
+    user = db.relationship('User', backref="hydrating")
+
+    def __repr__(self):
+        return f'<Period user_id={self.user_id} water_entry={self.water_entry}>'
+
+
+class Notes(db.Model):
+    """Stores all the entries of text that are written for each user"""
+
+    __tablename__ = 'notes_all'
+
+    notes__entry_id = db.Column(db.Integer,
+                        autoincrement=True,
+                        primary_key=True,
+                        unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    notes_entry = db.Column(db.String(100), nullable=True)
+    type_of_notes = db.Column(db.String(100), nullable=True)
+    date_time = db.Column(db.String, nullable = False, default=datetime.today())
+
+    user = db.relationship('User', backref="notes_all")
+
+    def __repr__(self):
+        return f'<Notes user_id={self.user_id} notes_entry={self.notes_entry}>'
 
 
 def connect_to_db(flask_app, db_uri="postgresql:///fertility", echo=True):

@@ -5,7 +5,7 @@ from datetime import datetime, date, time
 
 from sqlalchemy import Date, cast
 
-from model import connect_to_db, db, User, Temperature, Supplement, Meal
+from model import connect_to_db, db, User, Temperature, Supplement, Meal, Menstruation, Notes, Water
 # import crud
 
 from jinja2 import StrictUndefined
@@ -256,6 +256,75 @@ def process_meals_preview():
 def show_calendar():
     """Return Calendar Page"""
     return render_template('all_calendar.html')
+
+
+#########################################################################
+#                       Period                                          #
+#########################################################################
+
+@app.route("/add_period.json", methods = ["POST"])
+def add_period():
+    """ adds period"""
+
+    user_id = session['logged_in_user_id']
+
+    # p_start = request.form.get('period_start')
+    p_length = request.form.get('period_length')
+    
+    # print(note_text)
+    # print("\n" * 5)
+
+
+    """Move to crud"""
+    new_period = Menstruation(
+                user_id = user_id,
+                # period_start = p_start,
+                period_length = p_length,
+    )
+
+    db.session.add(new_period)
+    db.session.commit()
+
+
+    return redirect("/calendar")
+
+#########################################################################
+#                       Note                                            #
+#########################################################################
+
+@app.route("/add_note.json", methods = ["POST"])
+def add_note():
+    """ adds note"""
+
+    user_id = session['logged_in_user_id']
+
+    note_t = request.json.get('note_text')
+    date_time = request.json.get('date_time').split('.')[0]
+    date_time = datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
+
+    # print("\n"*3)
+    # print(date_time)
+    # print("\n"*3)
+    
+    # print(note_text)
+    # print("\n" * 5)
+
+
+    """Move to crud"""
+    new_note = Notes(
+                user_id = user_id,
+                notes_entry = note_t,
+                date_time = date_time,
+    )
+
+    db.session.add(new_note)
+    db.session.commit()
+
+
+    return redirect("/calendar")
+
+
+
 
 #########################################################################
 #                       USER REGISTER                                   #
