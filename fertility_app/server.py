@@ -1,7 +1,7 @@
 """Server for fertility app."""
 
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 
 from sqlalchemy import Date, cast
 
@@ -255,7 +255,45 @@ def process_meals_preview():
 @app.route("/calendar")
 def show_calendar():
     """Return Calendar Page"""
+
+    # notes = Notes.query.filter(Notes.user_id == user_id).all()
+    
+    # # notes_by_date = collections.defaultdict(list)
+    # # for note in notes:
+    # #     notes_by_date[(note.date_time.month, note.date_time.year)].append(note)
+
+    # periods = Menstruation.query.filter(Menstruation.user_id == user_id, cast(Menstruation.period_start, Date) == date_time.date()).all()
     return render_template('all_calendar.html')
+
+
+@app.route("/req_calendar", methods = ["POST"])
+def req_calendar():
+    """request data for date in  Calendar Page"""
+
+    user_id = session['logged_in_user_id']
+
+    start_date = request.json.get('start_date').split("T")[0]
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = request.json.get('end_date').split("T")[0]
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+
+    notes = Notes.query.filter(Notes.user_id == user_id, cast(Notes.date_time, Date) >= start_date, cast(Notes.date_time, Date) < end_date).all()
+    periods = Menstruation.query.filter(Menstruation.user_id == user_id, cast(Menstruation.period_start, Date) >= start_date, cast(Menstruation.period_start, Date) < end_date).all()
+
+    data = {'notes':[], 'periods':[]}
+    
+    for note in notes:
+        i = int(note.date_time.split(' ')[0][-2:])
+        if i not in data['notes']:
+            data['notes'].append(i)
+    for period in periods:
+        i = int(period.period_start.split(' ')[0][-2:])
+        if i not in data['periods']:
+            data['periods'].append(i)
+
+    return jsonify(data)
+
+
 
 
 #########################################################################
@@ -265,24 +303,25 @@ def show_calendar():
 @app.route("/add_period.json", methods = ["POST"])
 def add_period():
     """ adds period"""
-
+    
     user_id = session['logged_in_user_id']
 
-    # p_start = request.form.get('period_start')
-    p_length = request.form.get('period_length')
     
-    # print(note_text)
-    # print("\n" * 5)
+    p_length = int(request.json.get('period_length'))
+    p_start = request.json.get('date_time').split('.')[0]
+    p_start = datetime.strptime(p_start, "%Y-%m-%dT%H:%M:%S")
 
 
     """Move to crud"""
-    new_period = Menstruation(
-                user_id = user_id,
-                # period_start = p_start,
-                period_length = p_length,
-    )
+    for i in range(p_length):
+        date = p_start + timedelta(days= i)
+        new_period = Menstruation(
+                    user_id = user_id,
+                    period_start = date,
+                    period_length = 1,
+        )
 
-    db.session.add(new_period)
+        db.session.add(new_period)
     db.session.commit()
 
 
@@ -323,7 +362,26 @@ def add_note():
 
     return redirect("/calendar")
 
+@app.route("/read_note.json", methods=["POST"])
+def read_note():
+    """ reads notes from database and returns back to js"""
 
+    user_id = session['logged_in_user_id']
+
+    date_time = request.json.get('note_date').split('.')[0]
+    date_time = datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
+
+    notes = Notes.query.filter(Notes.user_id == user_id, cast(Notes.date_time, Date) == date_time.date()).all()
+
+
+
+    data = {'notes':[]}
+
+    for note in notes:
+        data['notes'].append(note.notes_entry)
+
+
+    return jsonify(data)
 
 
 #########################################################################

@@ -6,7 +6,10 @@ const date = new Date();
 // date.setDate(7);
 // console.log(date);
 
-//Main function to render the Calendar
+
+// #########################################################################
+//            Main function to render the Calendar                                       
+// #########################################################################
 const fertilityCalendar = () => {
 
     const monthDays = document.querySelector(".days");
@@ -49,6 +52,9 @@ const fertilityCalendar = () => {
     document.querySelector('.date h1').innerHTML = months[date.getMonth()];
     document.querySelector('.date p').innerHTML = new Date().toDateString();
 
+// #########################################################################
+//           rendering not-active Days of last month                                    
+// #########################################################################
     let days = "";
 
     // x will be the counter, then define the number of iterations, and on each iteration create a new div 
@@ -57,7 +63,11 @@ const fertilityCalendar = () => {
         days += `<div class="prev-date">${prevLastDay - x + 1}</div>`;
     }
 
+// #########################################################################
+//           rendering active Days with Notes and Period data                                    
+// #########################################################################
     for(let i = 1; i <= lastDay; i++){
+
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
             days += `<div id="${i}" class="today day selected_date">${i}</div>`;
         }
@@ -65,16 +75,52 @@ const fertilityCalendar = () => {
             // create a div element and pass i vairable  
             days += `<div class="day" id="${i}" >${i}</div>`;
         }
-    }
-    // monthDays.innerHTML = days;
 
+    }
+
+// #########################################################################
+//           rendering not-active Days of next month                                    
+// #########################################################################
     for(let j = 1; j <= nextDays; j++){
         days += `<div class="next-date">${j}</div>`;
     }
 
-    monthDays.innerHTML = days;
     
-    const dayElements = document.querySelectorAll('.day');  
+
+    monthDays.innerHTML = days;
+
+ 
+
+    const start_date = new Date(date.getFullYear(), date.getMonth());
+    const end_date = new Date(date.getFullYear(), date.getMonth()+1);
+    const formInputs = {
+        "start_date": start_date,
+        "end_date": end_date,
+    };
+    fetch('/req_calendar', {
+        "method": 'POST',
+        "body": JSON.stringify(formInputs),
+        "headers": {
+        'Content-Type':'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(responseJson => {
+        for (i of responseJson.periods) {
+            document.getElementById(`${i}`).classList.add("period");
+        }
+        for (i of responseJson.notes) {
+            document.getElementById(`${i}`).classList.add("note");
+        }
+    });
+
+    // console.log(note)
+    // console.log(period)
+
+// #########################################################################
+//           Rendering the day that was selected                                  
+// #########################################################################
+    const dayElements = document.querySelectorAll('.day'); 
 
     for (let day of dayElements) {
         day.addEventListener('click',() => {
@@ -84,18 +130,51 @@ const fertilityCalendar = () => {
             }
 
             day.classList.add("selected_date");
-        });
 
+        // #########################################################################
+        //           Sending request on selected day to Server                                 
+        // #########################################################################
+
+            let note_date = new Date(date.getFullYear(), date.getMonth(), day.id); 
+
+            const formInputs = {
+                "note_date":note_date,
+            };
+            // console.log(formInputs);
+            fetch('/read_note.json', {
+                "method": 'POST',
+                "body": JSON.stringify(formInputs),
+                "headers": {
+                  'Content-Type':'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(responseJson => {
+                document.querySelector("#box-for-note").innerHTML="";
+                for(let res of responseJson.notes) {
+                    document.querySelector("#box-for-note").insertAdjacentHTML('afterbegin',`<p>${res}</p>`);
+                }
+            });
+
+
+        });
+// #########################################################################
+//           Option two to add period                                  
+// #########################################################################
         day.addEventListener('dblclick',() => {
-            console.log(day.id);
-            // document.getElementById("exampleModal").modal('show');;
-            // day.classList.add("first_period_date");
-            addNote(day);
-            console.log(day.id);
+            // console.log(day.id);
+            // // document.getElementById("exampleModal").modal('show');;
+            // // day.classList.add("first_period_date");
+            // addNote(day);
+            // console.log(day.id);
         });
     }
+
 }
 
+// #########################################################################
+//           Navigation through Months                                
+// #########################################################################
 document.querySelector('.prev').addEventListener('click',() => {
     date.setMonth(date.getMonth() -1);
     fertilityCalendar();
@@ -109,32 +188,49 @@ document.querySelector('.next').addEventListener('click',() => {
 fertilityCalendar();
 
 
+// #########################################################################
+//                          Period to Server                              
+// #########################################################################
+
 function addPeriod(evt) {
     evt.preventDefault();
 
-    const formInputs = {
-        "period_start": document.querySelector('#').value,
-        "period_length": document.querySelector('#length').value,
-    };
-    console.log(formInputs);
-    fetch('/add_period.json', {
-        "method": 'POST',
-        "body": JSON.stringify(formInputs),
-        "headers": {
-          'Content-Type':'application/json',
-        },
-    });
+    if (document.querySelector(".selected_date").id !== null) {
+        let day = document.querySelector(".selected_date").id; // selects only int aka day of a month
+        const dtt = new Date(date.getFullYear(), date.getMonth(), day); //adds year + month + day. Now it is Date
+
+        let periode = document.querySelector("#period_length").value;
+
+        const formInputs = {
+            "date_time": dtt,
+            "period_length": document.querySelector('#period_length').value,
+        };
+        console.log(formInputs);
+        fetch('/add_period.json', {
+            "method": 'POST',
+            "body": JSON.stringify(formInputs),
+            "headers": {
+            'Content-Type':'application/json',
+            },
+        });
+        }
+    else {
+        console.log("select day");
+    }
 }
 
-document.querySelector("#reg-modal-period-form").addEventListener("click", addPeriod);
+document.querySelector("#reg-modal-period-form").addEventListener("click", addPeriod); //Once Add Period activated
 
 
+// #########################################################################
+//                          Notes to Server                              
+// #########################################################################
 function addNote(evt) {
     evt.preventDefault();
     
     if (document.querySelector(".selected_date").id !== null) {
-        let day = document.querySelector(".selected_date").id;
-        const dtt = new Date(date.getFullYear(), date.getMonth(), day);
+        let day = document.querySelector(".selected_date").id; // selects only int aka day of a month
+        const dtt = new Date(date.getFullYear(), date.getMonth(), day); //adds year + month + day. Now it is Date
 
         let note = document.querySelector("#note_text").value;
 
@@ -143,36 +239,19 @@ function addNote(evt) {
             "note_text": document.querySelector('#note_text').value,
         };
 
-        fetch('add_note.json', {
+        fetch('/add_note.json', {
             "method": 'POST',
             "body": JSON.stringify(formInputs),
             "headers": {
             'Content-Type':'application/json',
             },
         });
+
     }
     else {
         console.log("select day");
     }
 }
 
-document.querySelector("#reg-modal-note-form").addEventListener("click", addNote);
+document.querySelector("#reg-modal-note-form").addEventListener("click", addNote);//Once Add Note activated
 
-
-
-// function getPeriodInfo(day) {
-    
-//     const input = new FormData();
-//     input.append('day', day)
-    
-//     fetch("/period_form", {
-//         method: 'POST',
-//         body: input,
-//     })
-//     .then(response => response.json())
-//     .then(document.querySelector("#img_list").innerHTML="")
-//     .then(responseJson => {
-//         for(let i in responseJson.img) {
-//             document.querySelector("#img_list").insertAdjacentHTML('afterbegin',`<p>${responseJson.meal_type[i]}</p><img src="${responseJson.img[i]}"><p>${responseJson.ingredient[i]}</p>`);
-//         }
-//     })

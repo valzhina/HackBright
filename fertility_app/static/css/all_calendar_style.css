@@ -116,8 +116,17 @@ background-color: rgb(73, 57, 69);
     background-color: rgb(253, 152, 229);
 }
 
+.period{
+    background-color: #57282f;
+}
+
 .first_period_date{
     background-color: #57282f;
+}
+
+.note{
+    font-size: bold;
+    background-color: #28572a;
 }
 
 .modal-title{
