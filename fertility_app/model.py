@@ -99,7 +99,7 @@ class Menstruation(db.Model):
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     period_start = db.Column(db.String, nullable = False, default=datetime.today())
-    period_length = db.Column(db.Integer, nullable=False)
+    period_length = db.Column(db.Integer, nullable=False) #needs to be removed
 
     user = db.relationship('User', backref="period")
 

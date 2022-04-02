@@ -85,7 +85,6 @@ const fertilityCalendar = () => {
         days += `<div class="next-date">${j}</div>`;
     }
 
-    
 
     monthDays.innerHTML = days;
 
@@ -97,6 +96,7 @@ const fertilityCalendar = () => {
         "start_date": start_date,
         "end_date": end_date,
     };
+    console.log(start_date)
     fetch('/req_calendar', {
         "method": 'POST',
         "body": JSON.stringify(formInputs),
@@ -106,6 +106,7 @@ const fertilityCalendar = () => {
     })
     .then(response => response.json())
     .then(responseJson => {
+        console.log(responseJson)
         for (i of responseJson.periods) {
             document.getElementById(`${i}`).classList.add("period");
         }
@@ -114,8 +115,6 @@ const fertilityCalendar = () => {
         }
     });
 
-    // console.log(note)
-    // console.log(period)
 
 // #########################################################################
 //           Rendering the day that was selected                                  

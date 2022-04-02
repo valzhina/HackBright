@@ -268,7 +268,7 @@ def show_calendar():
 
 @app.route("/req_calendar", methods = ["POST"])
 def req_calendar():
-    """request data for date in  Calendar Page"""
+    """request data for current month in  Calendar Page"""
 
     user_id = session['logged_in_user_id']
 
@@ -283,6 +283,10 @@ def req_calendar():
     data = {'notes':[], 'periods':[]}
     
     for note in notes:
+        print("note.date_time.split(' ')", note.date_time.split(' '))
+        print("note.date_time.split(' ')[0]", note.date_time.split(' ')[0])
+        print("note.date_time.split(' ')[0][-1]", note.date_time.split(' ')[0][-1])
+        print("\n\n\n")
         i = int(note.date_time.split(' ')[0][-2:])
         if i not in data['notes']:
             data['notes'].append(i)
