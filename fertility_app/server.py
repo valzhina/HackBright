@@ -32,7 +32,7 @@ app.jinja_env.undefined = StrictUndefined
 
 
 #########################################################################
-#                                START HERE                             #
+#                     HOMEPAGE AND FEATURES                             #
 #########################################################################
 
 
@@ -283,10 +283,6 @@ def req_calendar():
     data = {'notes':[], 'periods':[]}
     
     for note in notes:
-        print("note.date_time.split(' ')", note.date_time.split(' '))
-        print("note.date_time.split(' ')[0]", note.date_time.split(' ')[0])
-        print("note.date_time.split(' ')[0][-1]", note.date_time.split(' ')[0][-1])
-        print("\n\n\n")
         i = int(note.date_time.split(' ')[0][-2:])
         if i not in data['notes']:
             data['notes'].append(i)
@@ -315,7 +311,7 @@ def add_period():
     p_start = request.json.get('date_time').split('.')[0]
     p_start = datetime.strptime(p_start, "%Y-%m-%dT%H:%M:%S")
 
-
+    
     """Move to crud"""
     for i in range(p_length):
         date = p_start + timedelta(days= i)
@@ -359,7 +355,6 @@ def add_note():
                 notes_entry = note_t,
                 date_time = date_time,
     )
-
     db.session.add(new_note)
     db.session.commit()
 
@@ -376,9 +371,6 @@ def read_note():
     date_time = datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
 
     notes = Notes.query.filter(Notes.user_id == user_id, cast(Notes.date_time, Date) == date_time.date()).all()
-
-
-
     data = {'notes':[]}
 
     for note in notes:
@@ -386,6 +378,78 @@ def read_note():
 
 
     return jsonify(data)
+
+#########################################################################
+#                       Stay Hydrated                                   #
+#########################################################################
+
+@app.route("/stay_hydrated", methods=["GET"])
+def show_water_level():
+    """Show water form."""
+    return render_template("stay_hydrated.html")
+
+
+@app.route("/enter_water", methods=["POST"])
+def process_water():
+    """Add user's hydration level to DB """
+
+    hydration = float(request.json.get('hydration_level'))
+    w_date = datetime.today().date()
+    user_id = session['logged_in_user_id']
+   
+    
+    """Move to crud"""
+    new_water_entry = Water(
+                        user_id = user_id,
+                        water_entry = hydration,
+                        date_time = w_date)
+  
+    db.session.add(new_water_entry)
+    db.session.commit()
+
+
+    return redirect('/get_water')
+
+
+@app.route("/get_water")
+def get_water():
+    """request data for Water Page Images"""
+
+    user_id = session['logged_in_user_id']
+    water_goal =  Water.query.filter(Water.user_id == user_id, Water.water_entry==None).all()
+    print(water_goal)
+    if water_goal == []:
+        water_goal = 3.
+    else:
+        water_goal = water_goal[-1].daily_water_goal
+    hyd_levs =  Water.query.filter(Water.user_id == user_id, cast(Water.date_time, Date) == datetime.today().date(), Water.water_entry!=None).all()
+
+    hyd_levs_sum = 0
+    for lvl in hyd_levs:
+        hyd_levs_sum += lvl.water_entry
+
+    data = {'sum':hyd_levs_sum, 'water_goal':water_goal}
+    return jsonify(data)
+
+
+@app.route("/set_goal")
+def set_goal():
+    """set water goal"""
+    user_id = session['logged_in_user_id']
+    water_goal = request.args.get('water_goal')
+    w_date = datetime.today().date()
+
+    new_water_entry = Water(
+                        user_id = user_id,
+                        daily_water_goal = water_goal,
+                        date_time = w_date)
+
+    db.session.add(new_water_entry)
+    db.session.commit()
+
+    return redirect('/get_water')
+
+
 
 
 #########################################################################
@@ -408,11 +472,9 @@ def process_register():
     email = request.form.get('email')
     password = request.form.get('password')
     confirm_password = request.form.get('re_password')
-    # print(first_name)
 
 
     user = User.query.filter_by(email = email).first()
-    # print('smth here', confirm_password)
     if user:
         flash('An account with this email already exists')
         return redirect('/login')
@@ -429,9 +491,6 @@ def process_register():
                         password = password,
                         # profile_proto_url
                         created_at = datetime.today())
-    
-        # set password for new user
-        # set password securely
         
         db.session.add(new_user)
         db.session.commit()

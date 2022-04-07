@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Stay Hydrated{% endblock %}
+
+{% block head %}
+    
+    <link rel="stylesheet" href="/static/css/stay_hydrated.css">
+
+{% endblock %}
+
+{% block body %}
+
+    <h2 class="form-feature">Stay hydrated</h2>
+
+    <h5 class="date">Today's Date</h5>
+    <div id="todays_date"></div>
+
+    <!-- <input type="date" name="date" id="w_date"> -->
+
+    <div>
+        <h2 class="form-update">Update your level of hydration</h2>
+        <label><input type="radio" name="level_of_hydration" value="0.25" checked> a few sips of water</label>
+        <label><input type="radio" name="level_of_hydration" value="0.5"> half a glass</label>
+        <label><input type="radio" name="level_of_hydration" value="1"> a glass</label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Submit</button>
+
+    <!-- <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Previous Record</button> -->
+
+    <p> most people need about 8 glasses of water or water equivalents a day, 
+        but let's start with a goal of 3 glasses 
+    </p> 
+    <h4 class="form-update">My Daily Hydration Goal</h4>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reg-modal-water-goal">Set</button>
+
+    <!-- Modal Set Hydration Goal itself -->
+ 
+    <div class="modal fade" id="reg-modal-water-goal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-title">What is your daily Goal?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <label for ="modal-water-goal" class="form-label">in glasses</label>
+              <input id="water_goal" type="number" name="water_goal" placeholder ="1" step="1" min="1" max="20">
+            </div>
+            <div class="modal-footer">
+              
+              <button id="reg-modal-water-form" class="btn btn-primary" data-bs-dismiss="modal" >Save</button>  
+            </div>
+          </div>
+        </div>
+    </div>
+  
+
+
+
+    <section id="image-container"></section>
+    
+
+
+    <script src="\static\js\water.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+{% endblock %}

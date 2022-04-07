@@ -117,10 +117,10 @@ class Water(db.Model):
                         primary_key=True,
                         unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    water_entry = db.Column(db.String(100), nullable=True)
+    water_entry = db.Column(db.Float, nullable=True)
     date_time = db.Column(db.String, nullable = False, default=datetime.today())
-    img_url = db.Column(db.String(10000), nullable=True, default = '/static/img/TBD_default-glassimage.png')
-
+    daily_water_goal = db.Column(db.Float, nullable=True)
+    
     user = db.relationship('User', backref="hydrating")
 
     def __repr__(self):

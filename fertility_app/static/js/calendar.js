@@ -69,11 +69,11 @@ const fertilityCalendar = () => {
     for(let i = 1; i <= lastDay; i++){
 
         if(i === new Date().getDate() && date.getMonth() === new Date().getMonth()) {
-            days += `<div id="${i}" class="today day selected_date">${i}</div>`;
+            days += `<div id="${i}" class="today day selected_date">${i} <i id='icon${i}'></i></div>`;
         }
         else{
             // create a div element and pass i vairable  
-            days += `<div class="day" id="${i}" >${i}</div>`;
+            days += `<div class="day" id="${i}" >${i}<i id='icon${i}'></i></div>`;
         }
 
     }
@@ -111,7 +111,8 @@ const fertilityCalendar = () => {
             document.getElementById(`${i}`).classList.add("period");
         }
         for (i of responseJson.notes) {
-            document.getElementById(`${i}`).classList.add("note");
+            document.getElementById(`icon${i}`).classList.add("bi");
+            document.getElementById(`icon${i}`).classList.add("bi-chat-heart");
         }
     });
 
@@ -156,16 +157,6 @@ const fertilityCalendar = () => {
             });
 
 
-        });
-// #########################################################################
-//           Option two to add period                                  
-// #########################################################################
-        day.addEventListener('dblclick',() => {
-            // console.log(day.id);
-            // // document.getElementById("exampleModal").modal('show');;
-            // // day.classList.add("first_period_date");
-            // addNote(day);
-            // console.log(day.id);
         });
     }
 
