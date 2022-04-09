@@ -3,11 +3,12 @@
 // PART 0: Build calendar and handle clicks
 
 
+// #########################################################################
+//        Show meals that have been uploaded right after upload                            
+// #########################################################################
 
 
-// PART 1: Show meals that have been uploaded right after upload
-
-function enterBreakfast(evt) {
+function enterMeal(evt) {
     evt.preventDefault();
 
     const formData = new FormData();
@@ -42,4 +43,4 @@ function enterBreakfast(evt) {
         )
 }
 
-document.querySelector('#meal_form').addEventListener('submit', enterBreakfast);
+document.querySelector('#meal_form').addEventListener('submit', enterMeal);

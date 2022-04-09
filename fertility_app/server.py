@@ -413,15 +413,19 @@ def process_water():
 
 @app.route("/get_water")
 def get_water():
-    """request data for Water Page Images"""
+    """get data for Water Page Images from DB"""
 
     user_id = session['logged_in_user_id']
+    #get all entry about water goal where water_entry is absent in table water
     water_goal =  Water.query.filter(Water.user_id == user_id, Water.water_entry==None).all()
-    print(water_goal)
+    # print(water_goal)
+    #set default water goal
     if water_goal == []:
         water_goal = 3.
     else:
+        #use the last entry from column daily_water_goal
         water_goal = water_goal[-1].daily_water_goal
+    #get all entry about water_entry where water_goal is absent in table water
     hyd_levs =  Water.query.filter(Water.user_id == user_id, cast(Water.date_time, Date) == datetime.today().date(), Water.water_entry!=None).all()
 
     hyd_levs_sum = 0

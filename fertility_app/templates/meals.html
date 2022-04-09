@@ -14,13 +14,11 @@
     <div id="calendar"></div>
 
 
-
-
     <h2 class="form-feature">Meal Journal</h2>
 
     <div class="form-meal">
       <label for="type_of_meal" class="entry">Your meal today</label>
-      <form class="form" id = "meal_form">
+      <form class="form" id="meal_form">
 
         <h3 class="form-feature">Breakfast</h3>
         <input type="file"  name="my_file" id="my_file">
@@ -35,23 +33,32 @@
         <input type="text" name="ingredients-entry" id="ingredients">
 
         <button type="submit" id="breakfast-form-button" class="btn btn-primary mt-2">Submit</button>
-
       </form>
     </div>
  
 
   
     <a class="btn btn-primary" href="/will_see">Future Icon Maybe </a>
-    
-  
+    <div class="row" id="meal_jour">
+      <div class="row" id="meal_jour_text">
+        <label for="type_of_meal_label" class="col-md-3">Breakfast</label>
+        <label for="type_of_meal_label" class="col-md-3">Lunch</label>
+        <label for="type_of_meal_label" class="col-md-3">Dinner</label>
+          <div class="row" id="meas_jour_images">
+            <div class="col-md-3" id="leftbox"><img class="card-img-top img-circle" src="/static/img/default_food_line_img.png"></div>
+            <div class="col-md-3" id="middlebox"><img class="card-img-top img-circle" src="/static/img/default_food_line_img.png"></div>
+            <div class="col-md-3" id="rightbox"><img class="card-img-top img-circle" src="/static/img/default_food_line_img.png"></div>
+          </div>
+        <label for="type_of_meal_label" class="col-md-3">Breakfast Ingredients</label>
+        <label for="type_of_meal_label" class="col-md-3">Lunch Ingredients</label>
+        <label for="type_of_meal_label" class="col-md-3">Dinner Ingredients</label>
+      </div>
+    </div>
     <div id=img_list class="container row col-xs-12 col-sm-6 col-md-6 col-lg-4 meal-summary mt-3">
 
     </div>
 
 
     
-    
-    <script type="text/javascript" src="/static/js/calendarize.js"></script>
-    <!-- I imported calendarize here and script for building calendar put in meals. What is the proper procedure in here -->
     <script src="/static/js/meals.js"></script>
   {% endblock %}  

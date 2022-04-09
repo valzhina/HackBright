@@ -15,3 +15,25 @@ div.meal-summary img {
    width: 15em;
    /* height: 15em; */
 }
+
+
+#leftbox{
+   float:left;
+   width:25%;
+   height: 200px;
+}
+
+#middlebox {
+   float:left;
+   width:25%;
+   height: 200px;
+}
+
+#rightbox {
+   float:right;
+   width:25%;
+   height: 200px;
+}
+
+
+
