@@ -1,0 +1,12 @@
+/* Temperature Page */
+
+/* The body has an image that spans the entire size of the page.
+   Everything is centered and in white. */
+
+body {
+    background: #333 url("/static/img/callum-shaw-bPVumyN7-yk-unsplash.jpg");
+    background-size: cover;
+
+    color: #142b6f;
+    text-align: center;
+}

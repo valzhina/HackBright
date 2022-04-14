@@ -9,12 +9,62 @@
 
 {% block body %}
 
-    <h2 class="form-feature">Stay hydrated</h2>
+    <!-- Carousel with caption -->
+  <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="page_image">
+        <img src="/static/img/water/quokkabottles-6wn80vdAHWc-unsplash.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>It's time</h1>
+          <h1>to clear</h1>
+          <h1>up the</h1>
+          <h1>facts</h1>
+        </div>
+      </div>
+      
+  </div>
+
+  <!-- Below main image -->
+  <div class="container2">
+    <div class="row">
+      <div class="col-6">
+        <img src="/static/img/water/kobu-agency-TWIRIAizZFU-unsplash.jpg" class="d-block w-100" alt="...">
+      </div>
+      <div class="col-6">
+        <h2 class="form-feature">Stay hydrated</h2>
+        <!-- <h5 class="date">Today's Date</h5> -->
+        <div id="todays_date"></div>
+        
+        <p> most people need about 8 glasses of water or water equivalents a day, 
+          but let's start with a goal of 3 glasses 
+        </p> 
+        <h4 class="form-update">My Daily Hydration Goal</h4>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reg-modal-water-goal">Set</button>
+
+        <div>
+            <h2 class="form-update">Update your level of hydration</h2>
+            <label><input type="radio" name="level_of_hydration" value="0.25" checked> a few sips of water</label>
+            <label><input type="radio" name="level_of_hydration" value="0.5"> half a glass</label>
+            <label><input type="radio" name="level_of_hydration" value="1"> a glass</label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Submit</button>
+        
+      </div>
+    </div>
+  </div>
+
+
+    <!-- <h2 class="form-feature">Stay hydrated</h2>
 
     <h5 class="date">Today's Date</h5>
     <div id="todays_date"></div>
 
-    <!-- <input type="date" name="date" id="w_date"> -->
 
     <div>
         <h2 class="form-update">Update your level of hydration</h2>
@@ -23,15 +73,15 @@
         <label><input type="radio" name="level_of_hydration" value="1"> a glass</label>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Submit</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Submit</button> -->
 
     <!-- <button class="btn btn-lg btn-primary btn-block" type="submit" id="submit">Previous Record</button> -->
 
-    <p> most people need about 8 glasses of water or water equivalents a day, 
+    <!-- <p> most people need about 8 glasses of water or water equivalents a day, 
         but let's start with a goal of 3 glasses 
     </p> 
     <h4 class="form-update">My Daily Hydration Goal</h4>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reg-modal-water-goal">Set</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reg-modal-water-goal">Set</button> -->
 
     <!-- Modal Set Hydration Goal itself -->
  

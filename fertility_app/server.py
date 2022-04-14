@@ -43,14 +43,16 @@ def show_index():
     return render_template('homepage.html')
 
 
+
 @app.route("/features")
 def list_features():
     """Return page showing all the features app has to offer"""
 
     # feature_list = features.get_all()
-    if 'logged_in_user_id' not in  session:
+    if 'logged_in_user_id' not in session:
         flash("Please login") 
         return redirect('/login')
+
     return render_template("all_features.html")#,
                         #    feature_list=feature_list)
 
@@ -79,12 +81,16 @@ def process_temperature():
     db.session.add(new_temperature)
     db.session.commit()
 
-    return redirect('/features')
+    return redirect('/charts')
 
 
 @app.route("/charts")
 def process_temperature_chart():
     """Get temperature details from db and render it"""
+
+    if 'logged_in_user_id' not in session:
+        flash("Please login") 
+        return redirect('/login')
 
     user_id = session['logged_in_user_id']
 
@@ -97,7 +103,7 @@ def process_temperature_chart():
         dates.append(entry.temp_date)
         temps.append(float(entry.temperature_entry))
 
-    return render_template("chartjs.html", temperature_list = temps, temp_dates_list = dates)
+    return render_template("temperature.html", temperature_list = temps, temp_dates_list = dates)
 
 
 
@@ -109,55 +115,70 @@ def process_temperature_chart():
 @app.route("/supplements", methods=["GET"])
 def process_supplement():
     """Add user's supplement to DB """
+    
+    times = ["upon_rising", "with_breakfast", "mid_morning", "with_lunch", 
+            "mid_afternoon", "with_dinner", "after_dinner", "before_bed"]
+    
+    supplement_times = []
+    for tim in times:
+        supplement_times.append(request.args.get(tim))
 
     supplement = request.args.get('supplement')
-    supplement_time = request.args.get('supp_time')
     supplement_dose = request.args.get('supp_dose')
     supplement_dose_type = request.args.get('supp_dose_type')
-    # date_started = request.args.get('date_started')
 
     user_id = session['logged_in_user_id']
-    # print(supplement,supplement_dose, supplement_time)
+
+    del_supplements = Supplement.query.filter(
+                                Supplement.user_id == user_id,
+                                Supplement.supplement_entry == supplement).all()
 
     """Move to crud"""
-    new_supplement = Supplement(
-                        user_id = user_id,
-                        supplement_entry = supplement,
-                        supplement_dose = supplement_dose,
-                        supplement_dose_type = supplement_dose_type,
-                        supplement_time = supplement_time)
-                        # date_started = date_started
+    for supplement_time in supplement_times:
+        if supplement_time:
+            new_supplement = Supplement(
+                                user_id = user_id,
+                                supplement_entry = supplement,
+                                supplement_dose = supplement_dose,
+                                supplement_dose_type = supplement_dose_type,
+                                supplement_time = supplement_time)
+                                # date_started = date_started
 
-    db.session.add(new_supplement)
+            db.session.add(new_supplement)
+
+    for supp in del_supplements:
+        db.session.delete(supp)
     db.session.commit()
 
-    return redirect('/features')
+    return redirect('/supp_charts')
 
 
 @app.route("/supp_charts")
 def process_supplements_chart():
     """Get supplements details from db and render it"""
 
+    if 'logged_in_user_id' not in session:
+        flash("Please login") 
+        return redirect('/login')
+
     user_id = session['logged_in_user_id']
 
     supplement_details = Supplement.query.filter(Supplement.user_id == user_id).all()
-    
-    # supp = []
-    # supp_dose = []
-    # supp_dose_type = []
-    supp_time = []
-    
+
+    supp_names = []
+    data = {}
+
+    times = ["upon_rising", "with_breakfast", "mid_morning", "with_lunch", 
+            "mid_afternoon", "with_dinner", "after_dinner", "before_bed"]
+
     for entry in supplement_details:
-        # supp.append(entry.supplement_entry)
-        # supp_dose.append(entry.supplement_dose)
-        # supp_dose_type.append(entry.supplement_dose_type)
-        supp_time.append(entry.supplement_time)
+        name = entry.supplement_entry
+        if name not in supp_names:
+            supp_names.append(name)
+            data[name] = [""]*8
+        data[name][times.index(entry.supplement_time)] = entry.supplement_dose +" " + entry.supplement_dose_type
 
-    supp_time_unique = list(set(supp_time))
-
-    # return render_template("chart_supp.html", supplement = supp, s_dose = supp_dose, s_type = supp_type, supplement_details = supplement_details)
-    # return render_template("chart_supp.html", data = jsonify({'supplement': supp, 'dose': supp_dose, 'dose_type': supp_dose_type, 'dose_time': supp_time}))
-    return render_template("chart_supp.html", data = supplement_details, supp_time_unique = supp_time_unique)
+    return render_template("supplements.html", data = data, supplement_names = supp_names)
 
 
 
@@ -166,30 +187,32 @@ def process_supplements_chart():
 #########################################################################
 
 
-# @app.route("/meal_journal")
-# def show_meal_journal():
-#     """Return Meal Page"""
-#     return render_template('meals.html')
-
 @app.route("/meal_info_day", methods = ["POST"])
 def get_meals_info_day():
     """smth"""
-    day = request.form.get('day').split(" (")[0]
-    day = datetime.strptime(day, "%a %b %d %Y %H:%M:%S GMT%z")
 
     user_id = session['logged_in_user_id']
-    meals = Meal.query.filter(Meal.user_id == user_id, cast(Meal.date_time, Date) == day.date()).all()
+    # print(request.json.get('date'), "\n\n\n")
+    req_date = request.json.get('date').split("T")[0]
+    req_date = datetime.strptime(req_date, "%Y-%m-%d")
+    e_date = req_date-timedelta(days=7)
 
-    data = {'ingredient':[],
-            'meal_type':[],
-            'img':[]}
+    data = {}
+
+    meals = Meal.query.filter(Meal.user_id == user_id, cast(Meal.date_time, Date) <= req_date.date(),cast(Meal.date_time, Date) > e_date.date()).all()
+
+    for _ in range(7):
+        data[str(req_date.date())]= {'breakfast':None,
+                            'lunch':None,
+                            'dinner':None}
+        req_date -= timedelta(days = 1)
+    
     for mil in meals:
-        data['ingredient'].append(mil.meal_entry)
-        data['meal_type'].append(mil.type_of_meal)
-        data['img'].append(mil.img_url)
+        data[mil.date_time][mil.type_of_meal]=[mil.meal_entry, mil.img_url]
+
 
     return jsonify(data)
-    
+
 
 
 @app.route("/meal_journal_input", methods=["POST"])
@@ -201,8 +224,6 @@ def process_meal_journal_input():
     ingredients = request.form.get('ingredients')
     meal = request.form.get('meal_type')
     my_file = request.files['my_file']
-    # print(ingredients, meal)
-    # print("\n" * 5)
 
     result = cloudinary.uploader.upload(my_file,
                                         api_key=CLOUDINARY_KEY,
@@ -211,38 +232,40 @@ def process_meal_journal_input():
 
     img_url = result['secure_url']
 
+
     """Move to crud"""
+
+    del_meals = Meal.query.filter(
+                                Meal.user_id == user_id,
+                                cast(Meal.date_time, Date) == datetime.today().date(),
+                                Meal.type_of_meal == meal).all()
+
     new_meal = Meal(
                 user_id = user_id,
                 meal_entry = ingredients,
                 type_of_meal = meal,
-                date_time = datetime.today(),
+                date_time = datetime.today().date(),
                 img_url = img_url)
+    
+    for del_meal in del_meals:
+        db.session.delete(del_meal)
 
     db.session.add(new_meal)
     db.session.commit()
+    # print("\n\n", img_url, "\n\n")
+    data = {str(datetime.today().date()): {meal:[ingredients, img_url]}}
 
-    
-    user_id = session['logged_in_user_id']
-    meals = Meal.query.filter(Meal.user_id == user_id).all()
-    # data = {'ingredient':[],
-    #         'meal_type':[],
-    #         'img':[]}
-    # for mil in meals:
-    #     data['ingredient'].append(mil.meal_entry)
-    #     data['meal_type'].append(mil.type_of_meal)
-    #     data['img'].append(mil.img_url)
+    return jsonify(data)
 
-    
-    # return redirect("/meal_journal")
 
-    # return data
-
-    return img_url
 
 @app.route("/meal_journal")
 def process_meals_preview():
     """Return Meal Page"""
+
+    if 'logged_in_user_id' not in session:
+        flash("Please login") 
+        return redirect('/login')
 
     return render_template("meals.html")
     
@@ -256,13 +279,10 @@ def process_meals_preview():
 def show_calendar():
     """Return Calendar Page"""
 
-    # notes = Notes.query.filter(Notes.user_id == user_id).all()
-    
-    # # notes_by_date = collections.defaultdict(list)
-    # # for note in notes:
-    # #     notes_by_date[(note.date_time.month, note.date_time.year)].append(note)
+    if 'logged_in_user_id' not in session:
+        flash("Please login") 
+        return redirect('/login')
 
-    # periods = Menstruation.query.filter(Menstruation.user_id == user_id, cast(Menstruation.period_start, Date) == date_time.date()).all()
     return render_template('all_calendar.html')
 
 
@@ -341,13 +361,6 @@ def add_note():
     date_time = request.json.get('date_time').split('.')[0]
     date_time = datetime.strptime(date_time, "%Y-%m-%dT%H:%M:%S")
 
-    # print("\n"*3)
-    # print(date_time)
-    # print("\n"*3)
-    
-    # print(note_text)
-    # print("\n" * 5)
-
 
     """Move to crud"""
     new_note = Notes(
@@ -386,6 +399,11 @@ def read_note():
 @app.route("/stay_hydrated", methods=["GET"])
 def show_water_level():
     """Show water form."""
+
+    if 'logged_in_user_id' not in session:
+        flash("Please login") 
+        return redirect('/login')
+
     return render_template("stay_hydrated.html")
 
 
@@ -500,6 +518,7 @@ def process_register():
         db.session.commit()
 
         session['logged_in_user_id'] = new_user.user_id
+        session['logged_in_user_name'] = new_user.first_name
         flash('Login successful')
 
     return redirect('/features')
@@ -527,6 +546,7 @@ def process_login():
     if user:
         if password == user.password:
             session['logged_in_user_id'] = user.user_id
+            session['logged_in_user_name'] = user.first_name
             flash('Login successful')
             return redirect('/features')
         else:
@@ -539,9 +559,10 @@ def process_login():
 
 @app.route("/logout")
 def process_logout():
-    del session['logged_in_customer_name']
+    del session['logged_in_user_id']
+    del session['logged_in_user_name']
     flash("Logged out")
-    return redirect('homepage.html')   
+    return redirect('/')   
 
 
 # @app.route("/chart")

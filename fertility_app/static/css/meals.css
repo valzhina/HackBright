@@ -7,13 +7,19 @@ body {
    background: #333 url("/static/img/katja-vogt-HIuZYCEBZBE-unsplash.jpg");
    background-size: cover;
 
-   color: white;
+   /* color: white; */
+   color: #142b6f;
    text-align: center;
 }
    
 div.meal-summary img {
    width: 15em;
    /* height: 15em; */
+}
+
+.container {
+	margin: 0 auto;
+	max-width: 800px;
 }
 
 

@@ -4,9 +4,50 @@
    Everything is centered and in white. */
 
    body {
-    background: #333 url("/static/img/kate-hliznitsova-uM18y03NkNg-unsplash.jpg");
-    background-size: cover;
+    /* background: #333 url("/static/img/kate-hliznitsova-uM18y03NkNg-unsplash.jpg");
+    background-size: cover; */
 
-    color: white;
+    color: #142b6f;
     text-align: center;
+}
+
+.container{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    
+}
+
+.row{
+    justify-content: center;
+}
+
+i{
+    display:block;
+    font-size: 200%;  
+}
+.box2{
+    /* width: 100%; */
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: center;
+    padding: 0 2rem;
+    align-items: center; 
+}
+
+.box3{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    justify-content: left;
+    padding: 0 2rem;
+    align-items: center; 
+}
+
+.mini-box{
+    width:100%;
+    height: 2rem;
+    background-color: rgb(129, 230, 237);
+    margin-bottom: 0.7rem;
 }

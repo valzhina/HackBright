@@ -4,15 +4,41 @@
    Everything is centered and in white. */
 
 body {
-    background: #333 url("/static/img/callum-shaw-bPVumyN7-yk-unsplash.jpg");
+    /* background: #333 url("/static/img/callum-shaw-bPVumyN7-yk-unsplash.jpg"); */
     background-size: cover;
 
-    color: white;
+    color: #142b6f;
     text-align: center;
 }
 
 /* site-wrapper and site-wrapper-inner are to vertically center content using
    table/table-cell vertical centering. */
+
+.container{
+    margin-top: 3%;
+    margin-bottom: 3%;
+    
+}
+
+.container2{
+    /* width: 100%; */
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    /* justify-content: space-between; */
+    justify-content: center;
+    padding: 0 2rem;
+    align-items: center; 
+}
+
+.container3{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    display: flex;
+    justify-content: right;
+    padding: 0 2rem;
+    align-items: center; 
+}
 
 .site-wrapper {
     display: table;
