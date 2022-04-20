@@ -10,22 +10,21 @@
 
     <form class="form" action = "/temperatures" method="GET">
 
-        <h2 class="form-feature">Temperature</h2>
+        <h2 class="heading_supp form-feature">Temperature</h2>
         <input type="date" name = "tdate">
       
-        <div>
+        <div class="form-items2">
           <label for="temperature" class="feature">Add your temperature</label>
           <input type="text"
                  name="temperature"
-                 class="form-control input-lg"
+                 class="form-control input-lg form-items1"
                  placeholder="temperature"
                  required
                  autofocus>
         </div>
-
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Temperature
-        </button>
-    
+        <div class="subheading_supp">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Add Temperature</button>
+        </div>
     </form>
     
 <!-- {% for t in  temperature_list %}
@@ -34,7 +33,7 @@
 {% endfor %} -->
 
   
-  <canvas id="test-chart"></canvas>
+  <canvas class="box1" id="test-chart"></canvas>
   
   <script>
     const testChart = new Chart(

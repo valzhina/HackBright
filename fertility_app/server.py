@@ -192,7 +192,7 @@ def get_meals_info_day():
     """smth"""
 
     user_id = session['logged_in_user_id']
-    # print(request.json.get('date'), "\n\n\n")
+    print(request.json.get('date'), "\n\n\n")
     req_date = request.json.get('date').split("T")[0]
     req_date = datetime.strptime(req_date, "%Y-%m-%d")
     e_date = req_date-timedelta(days=7)
@@ -252,7 +252,7 @@ def process_meal_journal_input():
 
     db.session.add(new_meal)
     db.session.commit()
-    # print("\n\n", img_url, "\n\n")
+    print("\n\n")
     data = {str(datetime.today().date()): {meal:[ingredients, img_url]}}
 
     return jsonify(data)

@@ -73,13 +73,13 @@ function draw_glasses(sum, goal) {
     document.querySelector("#image-container").innerHTML="";
     for (let glass=0; glass<goal; glass++) {
         if (sum>= 1) {
-            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<img src="/static/img/water/full.jpeg">');
+            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<div class="col-3"><img src="/static/img/water/full.jpeg" style="width:100%"></div>');
         }
         else if (sum >=0.5) {
-            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<img src="/static/img/water/half.jpeg">');
+            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<div class="col-3"><img src="/static/img/water/half.jpeg" style="width:100%"></div>');
         }
         else {
-            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<img src="/static/img/water/empty.jpeg">');
+            document.querySelector("#image-container").insertAdjacentHTML('afterbegin','<div class="col-3"><img src="/static/img/water/empty.jpeg" style="width:100%"></div>');
         }
         sum--;
 

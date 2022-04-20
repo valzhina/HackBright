@@ -38,9 +38,9 @@ for n in range(1,2):
 
     model.db.session.add(new_user)
 
-    temp_list = [96,97,96,97,96,97,96,97,96,97,96,97,]
+    temp_list = [96.92,96.86,97.34,97.53,97.47,97.82,97.76,98.61,98.52,98.24,98.14,98.5,98.26,98.0,97.93,97.84,97.88,97.54]
     # Create temperature list
-    for r in range(10):
+    for r in range(18):
         user_id = n
         temperature = temp_list[r]
         tdate = datetime(2022,4,1+r).date()
@@ -68,9 +68,16 @@ for n in range(1,2):
 
         model.db.session.add(new_meal)
     
-    supp_dict = {"Vitamin C":[["with_breakfast", "1", "capsule"]], 
-                "Vitamin D":[["mid_afternoon", "2", "capsule"], ["with_dinner", "2", "capsule"]], 
-                "Tomorrow's Nutrition PRO Sunfiber":[["with_breakfast", "1", "scoop"]]}
+    supp_dict = {"Vitamin D":[["mid_afternoon", "2", "capsule"]], 
+                # "Calcium D-Glucarate":[["mid_morning", "1", "capsule"], ["with_dinner", "1", "capsule"]], 
+                "8X Pancreatin":[["with_breakfast", "1", "capsule"],["with_lunch", "1", "capsule"],["with_dinner", "1", "capsule"]],
+                "Chicken broth":[["mid_morning", "1", "cup"]],
+                # "MegaSporeBiotic":[["with_breakfast", "2", "capsule"]],
+                "Tomorrow's Nutrition PRO Sunfiber":[["with_breakfast", "1", "scoop"]],
+                # "Broccoli Sprouts":[["mid_afternoon", "1", "cup"]],
+                # "Optimal Prenatal":[["with_lunch", "8", "capsule"]],
+                "Magnesium":[["before_bed", "3", "capsule"]]}
+                
 
     for supp in supp_dict.keys():
         for entry in supp_dict[supp]:
