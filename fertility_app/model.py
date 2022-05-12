@@ -25,6 +25,8 @@ class User(db.Model):
     # body_temperature = a list of Items objects --> an attribute has been made for the Temperature Class
     # supplements = a list of Items objects --> an attribute has been made for the Supplement Class
     # meals = a list of Items objects --> an attribute has been made for the Meal Class
+    # water = a list of Items objects --> an attribute has been made for the water Class
+    # notes = a list of Items objects --> an attribute has been made for the Notes Class
 
     def __repr__(self):
         return f'<User user_id={self.user_id} full_name={self.full_name} email={self.email}>'
