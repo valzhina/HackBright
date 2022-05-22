@@ -40,7 +40,7 @@ def if_cell_is_empty(board, coordinate):
         return False
     return True
 
-def is_winning(board, player):
+def is_winning2(board, player): #when checking all the scenarios one by one
     """ Checks if "x" or "o" are next to each other"""
     if board[0][0] == player and board[0][1] == player and board[0][2] == player:
         return True
@@ -59,6 +59,50 @@ def is_winning(board, player):
     elif board[2][0] == player and board[1][1] == player and board[0][2] == player:
         return True
     return False
+
+def is_winning(board, player):
+    """ Checks if "x" or "o" are next to each other"""
+    win = None
+
+    #checking rows
+    for i in range(3):
+        win = True
+        for j in range(3):
+            if board[i][j] != player: #[i]-row stays 3 times the same [j]iterates and should be all be == "x" or "o" to win
+                win = False
+                break
+        if win == True:
+            return win
+
+    #checking columns
+    for i in range(3):
+        win = True # changing from None to True
+        for j in range(3):
+            if board[j][i] != player: #[j]-column stays 3 times the same [i]iterates and should be all be == "x" or "o" to win
+                win = False
+                break
+        if win == True:
+            return win
+
+    #checking diagonal 1
+    win = True #changing from Falce to True
+    for i in range(3):
+        if board[i][i] != player:
+            win = False
+            break
+    if win == True:
+        return win
+
+    #checking diagonal 2
+    win = True #changing from Falce to True
+    for i in range(3):
+        if board[i][3-1-i] != player:
+            win = False
+            break
+    if win == True:
+        return win
+    return False #for all other scenarios 
+
 
 def check_input(coordinate):
     """ Checks if input is a number from 1 to 9 """
