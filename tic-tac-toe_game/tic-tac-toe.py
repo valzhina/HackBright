@@ -3,6 +3,9 @@ Write a game. Input will be from two players x or o
 Need to: draw a board
 coordinate turns, check if board cell was used or not,
 check after every turn if a move == victory
+
+I will make the boartd using array, each number in the board will be indicating a cell,
+I will change the value of each cell to "x" or "o" according to player's choice of move
 """
 
 board = [[1,2,3],[4,5,6],[7,8,9]] #adds 9 coordinates to board 
@@ -23,8 +26,9 @@ def draw_board(board):
             print("--- --- ---")
     print("\n")
 
+
 def player_turn(board, player, coordinate):
-    """ Current board, "x" or "o", number that was an input from 1 to 9 """
+    """ Updates board w/ "x" or "o", replacing a number on the board """
     coordinate = coordinate - 1 #correction for binary system 
     i = coordinate // 3 #check coordiante's row
     j = coordinate % 3 #check coordiante's position in a row
@@ -32,7 +36,7 @@ def player_turn(board, player, coordinate):
     return(board)
 
 def if_cell_is_empty(board, coordinate):
-    """ tbd """
+    """ Cheking for cell to have an original number """
     coordinate = coordinate - 1 #correction for binary system 
     i = coordinate // 3 #check coordiante's row
     j = coordinate % 3 #check coordiante's position in a row
