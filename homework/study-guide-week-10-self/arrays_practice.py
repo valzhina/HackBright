@@ -44,7 +44,6 @@ def best_time_to_buy_and_sell(prices):
     profit  = 0
     # for i in range(len(prices)):
     #     if prices[i] < buy:
-          
     #         buy = prices[i]
     #     if prices[i] - buy > profit:
     #         profit = prices[i] - buy
