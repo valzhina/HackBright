@@ -5,16 +5,16 @@ Example:
 
 centered_average([1, 2, 3, 4, 100]) → 3
 centered_average([1, 1, 5, 5, 10, 8, 7]) → 5
-centered_average([-10, -4, -2, -4, -2, 0]) → -3
+centered_average([-10, -4, -2, -4, -2, 0]) → -3 """
 
 def centered_average(nums):
-    """ """Arrays""""""
+    """""""""Arrays"""""""""
     nums.sort()
     nums2 = nums[1:-1]
     sum = 0
     for i in range(len(nums2)):
         sum += nums2[i]
-    return sum/len(nums2)"""
+    return sum/len(nums2)
 
 # print(centered_average([-10, -4, -2, -4, -2, 0]))
 
@@ -35,13 +35,23 @@ Example 2:
 
 Input: prices = [7,6,4,3,1]
 Output: 0
-Explanation: In this case, no transactions are done and the max profit = 0.
-"""
+Explanation: In this case, no transactions are done and the max profit = 0."""
+
 
 def best_time_to_buy_and_sell(prices):
     """Arrays"""
     buy = prices[0]
     profit  = 0
+    for item in prices:
+        if item < buy:
+            buy = item
+        if item - buy > profit:
+            profit = item - buy
+    return profit
+
+# Solution II
+    # buy = prices[0]
+    # profit  = 0
     # for i in range(len(prices)):
     #     if prices[i] < buy:
     #         buy = prices[i]
@@ -49,10 +59,83 @@ def best_time_to_buy_and_sell(prices):
     #         profit = prices[i] - buy
     # return profit
 
-# Solution II
-    for i in range(len(prices)):
-        if prices[i] < buy:
-            buy = prices[i]
-        profit = max(prices[i] - buy, profit)
-    return profit
-print (best_time_to_buy_and_sell([7,1,5,3,6,4]))
+# Solution III
+    # for i in range(len(prices)):
+    #     if prices[i] < buy:
+    #         buy = prices[i]
+    #     profit = max(prices[i] - buy, profit)
+    # return profit
+
+# print (best_time_to_buy_and_sell([7,1,5,3,6,4]))
+
+
+##############################################################################
+
+"""05.27 Affoo
+"""
+##############################################################################
+
+"""
+06.01 Goo
+Part 1
+Input [22,5,8,44,60,22,23,44]  target = 22 ->  Sorted [5,8,22,22,23,44,44,60] -> index[2,3]
+
+Given an array and target. The goal is to find the target in array, sort it and return target's index.
+If the target(number) used a few times --> return all indexes, if it's empty -> return empty list []"""
+
+def find_index_w_target(array:list, target:int):
+    """Array Option 1 : Time (O(n))"""
+    left = 0
+    right = 0
+    for item in array:
+        if item < target:
+            left += 1
+        elif item > target:
+            right += 1
+    return list(range(left, len(array) - right))
+
+    # """Array Option 2 (Slow n*log(n) option)"""
+    # index = []
+    # array.sort()
+    # for i in range(len(array)):
+    #     if array[i] == target:
+    #         index.append(i) 
+    #         if i < len(array)-1 and  array[i + 1] != target:
+    #             break
+    # return index 
+
+# print (find_index_w_target([22,5,8,44,60,22,23,44,22], 60))
+
+
+# Part 2
+"""Input [22,5,8,11,23,60,22,23,44] ->  Sorted [5,8,11,22,22,23,23,44,60] -> index[3,4]
+
+Given an array and target. The goal is to find the most often number in array, sort it and return it's index.
+If the target(number) used a few times --> return all indexes, if it's empty -> return empty list []
+if the same number happens the same number of times --> return the smollast """
+
+
+def find_index(array:list):
+    """"""Dict""""""
+    d ={}
+    count = 0
+    for item in array:
+        d[item]= d.get(item, 0) + 1
+        if d[item] > count:
+            count = d[item]
+
+    target = []
+    for item, number in d.items():
+        if count == number:
+            target.append(item)
+    target.sort()
+    return find_index_w_target(array, target[0])
+
+print (find_index([5,8,11,22,22,23,23,44,60]))
+
+
+##############################################################################
+
+""" 06.02 Bloo """
+
+##############################################################################

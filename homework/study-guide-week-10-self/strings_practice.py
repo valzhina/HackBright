@@ -37,7 +37,7 @@ Since an empty string reads the same forward and backward, it is a palindrome.
 
 class Solution:
     def isPalindrome(self, s: str) -> bool:
-    """tbd"""
+    """ """tbd""" """
 
     l = 0
     r = len(s)-1
@@ -111,3 +111,40 @@ class Solution:
         
         # return the slice from original string that starts from our last matched index of l and r
         return s[l+1 : r]
+
+##############################################################################
+""" 06.02 Bloo 
+
+Two words are anagrams of one another if their letters can be rearranged to form the other word.
+Given two strings, check if they are anagrams. Determine the minimum number of characters to 
+change to make the two strings into anagrams of one another.
+
+'xyyx' , 'xxyxb' ->  Through exception
+'aabb' , 'abba' ->  2
+"""
+
+def anagram(input1, input2):
+    """Str"""
+    if len(input1) != len(input2):
+        raise Exception('not anagrams')
+    d = {}
+    count = 0
+    for letter in input1:
+        d[letter] = d.get(letter, 0) + 1
+
+    for letter in input2:
+        if letter in d and d[letter] > 0:
+            d[letter] -= 1
+        else:
+            count += 1
+    return count
+
+print (anagram('xyxy', 'yxxxx'))    
+        
+        
+
+##############################################################################
+
+
+"""Two words are anagrams of one another if their letters can be rearranged to form the other word.
+"""
