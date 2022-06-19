@@ -12,9 +12,9 @@ def centered_average(nums):
     nums.sort()
     nums2 = nums[1:-1]
     sum = 0
-    for i in range(len(nums2)):
-        sum += nums2[i]
-    return sum/len(nums2)
+    for i in range(len(nums2)): #for n in nums will also work
+        sum += nums2[i] #sum of all nums in array
+    return sum/len(nums2) 
 
 # print(centered_average([-10, -4, -2, -4, -2, 0]))
 
@@ -38,6 +38,7 @@ Output: 0
 Explanation: In this case, no transactions are done and the max profit = 0."""
 
 
+#O(n)
 def best_time_to_buy_and_sell(prices):
     """Arrays"""
     buy = prices[0]
@@ -49,7 +50,16 @@ def best_time_to_buy_and_sell(prices):
             profit = item - buy
     return profit
 
-# Solution II
+# Solution II //O(nlog_n)
+
+    # profit = 0
+    # i = prices.index(max(prices))
+    # prices_to_use = prices[:i+1]
+    # prices_to_use.sort()# O(nlog_n)
+    # profit = prices_to_use[-1] - prices_to_use[0]
+    # return profit
+
+# Solution III
     # buy = prices[0]
     # profit  = 0
     # for i in range(len(prices)):
@@ -110,13 +120,13 @@ def find_index_w_target(array:list, target:int):
 # Part 2
 """Input [22,5,8,11,23,60,22,23,44] ->  Sorted [5,8,11,22,22,23,23,44,60] -> index[3,4]
 
-Given an array and target. The goal is to find the most often number in array, sort it and return it's index.
+Given an array. The goal is to find the most often number in array, sort it and return it's index.
 If the target(number) used a few times --> return all indexes, if it's empty -> return empty list []
 if the same number happens the same number of times --> return the smollast """
 
 
 def find_index(array:list):
-    """"""Dict""""""
+    """Dict"""
     d ={}
     count = 0
     for item in array:
@@ -131,11 +141,50 @@ def find_index(array:list):
     target.sort()
     return find_index_w_target(array, target[0])
 
-print (find_index([5,8,11,22,22,23,23,44,60]))
+# print (find_index([5,8,11,22,22,23,23,44,60]))
 
 
 ##############################################################################
 
-""" 06.02 Bloo """
+""" Goo Practice 
+Given a collection of sorted numbers. Find a matching pair that is equal to a sum (target)
+[2,7,12,33] --> Sum 8 --> False
+[2,3,4,4] --> Sum 8 --> True
+
+"""
+
+def find_match_pair(array:list, target:int):
+    """O(n^2)"""
+    # for i in range(len(array)-1):
+    #     for j in range(i + 1, len(array)):
+    #         if array[i] + array[j] == target:
+    #             return True
+    #             break
+    #     i += 1
+    # return False
+
+    """O(n*log(n))recursive binary search"""
+    for i in range(len(array)):
+        if binary_search(array[i + 1:], target - array[i]):
+           return True
+        i += 1
+    return False
+
+def binary_search(array:list, complement:int):
+    l = 0
+    r = len(array)
+    while l < r:
+        mid = (l + r)/2
+        if array[mid] == complement:
+            return True
+        elif array[mid] > complement:
+            r = mid
+        else:
+            l = mid + 1
+    return False
+
+
+#print (find_match_pair([2,3,4,4], 8))
+
 
 ##############################################################################
