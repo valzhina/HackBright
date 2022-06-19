@@ -150,11 +150,10 @@ def find_index(array:list):
 Given a collection of sorted numbers. Find a matching pair that is equal to a sum (target)
 [2,7,12,33] --> Sum 8 --> False
 [2,3,4,4] --> Sum 8 --> True
-
 """
 
-def find_match_pair(array:list, target:int):
-    """O(n^2)"""
+def find_match_pair_sorted(array:list, target:int):
+    """Option I *** O(n^2)"""
     # for i in range(len(array)-1):
     #     for j in range(i + 1, len(array)):
     #         if array[i] + array[j] == target:
@@ -163,32 +162,58 @@ def find_match_pair(array:list, target:int):
     #     i += 1
     # return False
 
-    """O(n*log(n))recursive binary search"""
-    for i in range(len(array)-1):
-        if binary_search(array[i + 1:], target - array[i]):
+    """Option III *** O(n)"""
+    low = 0
+    hi = len(array)-1
+    while low < hi:
+        sum_of_n = array[low] + array[hi]
+        if sum_of_n == target:
            return True
-        i += 1
-    return False
-
-def binary_search(array:list, complement:int):
-    """searches for target"""
-    index_l = 0
-    index_r = len(array)
-    while index_l < index_r:
-        index_mid = (index_l + index_r)//2
-        if array[index_mid] == complement:
-            print (f"index_mid= {index_mid}")
-            return True
-        elif array[index_mid] > complement:
-            index_r = index_mid
-            print (f"index_r= {index_r}")
+        elif sum_of_n < target:
+            low += 1
         else:
-            index_l = index_mid + 1
-            print (f"index_l= {index_l}")
+            hi -=1
     return False
 
+    """Option II *** O(n*log(n)) binary search"""
+    # for i in range(len(array)-1):
+    #     if binary_search(array[i + 1:], target - array[i]):
+    #        return True
+    #     i += 1
+    # return False
 
+# def binary_search(array:list, complement:int):
+#     """searches for target"""
+#     index_l = 0
+#     index_r = len(array)
+#     while index_l < index_r:
+#         index_mid = (index_l + index_r)//2
+#         if array[index_mid] == complement:
+#             print (f"index_mid= {index_mid}")
+#             return True
+#         elif array[index_mid] > complement:
+#             index_r = index_mid
+#             print (f"index_r= {index_r}")
+#         else:
+#             index_l = index_mid + 1
+#             print (f"index_l= {index_l}")
+#     return False
+
+# print (find_match_pair_sorted([2,3,4,4], 8))
+# print (find_match_pair_sorted([2,3,4,9], 8))
+
+
+"""
+Given a collection of not sorted numbers. Find a matching pair that is equal to a sum (target)
+[2,7,12,33] --> Sum 8 --> False
+[2,3,4,4] --> Sum 8 --> True
+"""
+
+def find_match_pair(array:list, target:int):
+    """Option I *** O(n*log(n)) solution if I sorted first and use a function Option 3 from above"""
+    # array.sort() #O(n*log(n))
+    # return find_match_pair_sorted(array, target) #O(n)
+
+    """Option II *** O(n) solution """
 # print (find_match_pair([2,3,4,4], 8))
-
-
 ##############################################################################
