@@ -215,5 +215,23 @@ def find_match_pair(array:list, target:int):
     # return find_match_pair_sorted(array, target) #O(n)
 
     """Option II *** O(n) solution """
+    complements = set()
+    for item in array: 
+        if target - item in complements:
+            return True
+        else:
+            complements.add(target - item)
+    return False
+
+    """Option III *** O(n) solution if index ever needed"""
+    # complements = set()
+    # for i in range(len(array)): 
+    #     if target - array[i] in complements:
+    #         return True
+    #     else:
+    #         complements.add(target - array[i])
+    # return False
+
 # print (find_match_pair([2,3,4,4], 8))
+# print (find_match_pair([2,3,4,9], 8))
 ##############################################################################
