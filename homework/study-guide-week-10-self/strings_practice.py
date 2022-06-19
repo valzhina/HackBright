@@ -6,7 +6,7 @@ sudo
 find length of list 
 write a for loop that takes the index of the last word, and appends that to the list
 and then takes that index minus one, appends that to the list - and so forth until including i[0]
-and then pop the original order of hte list out of the list
+and then pop the original order of hte list out of the list"""
 
 def reverse_list_in_place(given_list):
     left = 0
@@ -20,9 +20,9 @@ def reverse_list_in_place(given_list):
         left += 1
 
 l = [8,3,7,5,9,6]
-print(l)
-reverse_list_in_place(l)
-print(l)"""
+# print(l)
+# reverse_list_in_place(l)
+# print(l)
 
 #####################################################################################
 """Valid Palindrome
@@ -33,6 +33,7 @@ Example 1: Input: s = "A man, a plan, a canal: Panama"  Output: true  Explanatio
 
 Example 2: Input: s = " " Output: true Explanation: s is an empty string "" after removing non-alphanumeric characters.
 Since an empty string reads the same forward and backward, it is a palindrome.
+"""
 
 
 class Solution:
@@ -54,24 +55,24 @@ class Solution:
             return False
     return True
 
-print (isPalindrome('.,'))
-print (isPalindrome('amanaplanacanalpanama'))      
+# print (isPalindrome('.,'))
+# print (isPalindrome('amanaplanacanalpanama'))      
 
 # Option 2
-        l = 0
-        r = len(s)-1
-        
-        while l < r:
-            while s[l].lower() not in "qwertyuiopasdfghjklzxcvbnm1234567890" and l<r:
-                l+= 1
-            while s[r].lower() not in "qwertyuiopasdfghjklzxcvbnm1234567890" and l<r:
-                r-= 1
-            if s[l].lower() == s[r].lower():
-                l+= 1
-                r-= 1
-            else:
-                return False
-        return True """
+    # l = 0
+    # r = len(s)-1
+    
+    # while l < r:
+    #     while s[l].lower() not in "qwertyuiopasdfghjklzxcvbnm1234567890" and l<r:
+    #         l+= 1
+    #     while s[r].lower() not in "qwertyuiopasdfghjklzxcvbnm1234567890" and l<r:
+    #         r-= 1
+    #     if s[l].lower() == s[r].lower():
+    #         l+= 1
+    #         r-= 1
+    #     else:
+    #         return False
+    # return True 
 
 
 #####################################################################################
@@ -139,12 +140,10 @@ def anagram(input1, input2):
             count += 1
     return count
 
-print (anagram('xyxy', 'yxxxx'))    
+# print (anagram('xyxy', 'yxxxx'))    
         
         
 
 ##############################################################################
 
 
-"""Two words are anagrams of one another if their letters can be rearranged to form the other word.
-"""
