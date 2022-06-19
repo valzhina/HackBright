@@ -164,27 +164,31 @@ def find_match_pair(array:list, target:int):
     # return False
 
     """O(n*log(n))recursive binary search"""
-    for i in range(len(array)):
+    for i in range(len(array)-1):
         if binary_search(array[i + 1:], target - array[i]):
            return True
         i += 1
     return False
 
 def binary_search(array:list, complement:int):
-    l = 0
-    r = len(array)
-    while l < r:
-        mid = (l + r)/2
-        if array[mid] == complement:
+    """searches for target"""
+    index_l = 0
+    index_r = len(array)
+    while index_l < index_r:
+        index_mid = (index_l + index_r)//2
+        if array[index_mid] == complement:
+            print (f"index_mid= {index_mid}")
             return True
-        elif array[mid] > complement:
-            r = mid
+        elif array[index_mid] > complement:
+            index_r = index_mid
+            print (f"index_r= {index_r}")
         else:
-            l = mid + 1
+            index_l = index_mid + 1
+            print (f"index_l= {index_l}")
     return False
 
 
-#print (find_match_pair([2,3,4,4], 8))
+# print (find_match_pair([2,3,4,4], 8))
 
 
 ##############################################################################
