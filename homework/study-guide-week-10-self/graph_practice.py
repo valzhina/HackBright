@@ -2,6 +2,75 @@
 # Graphs #
 # ------ #
 
+from collections import deque
+
+#####################################################################
+# Node and Graph Class
+#####################################################################
+
+
+class PersonNode:
+    """Node is a graph representation of a person """
+
+    def __init__(self, name, adjacent=None):
+        """Create a person node with friends adjacent"""
+
+        if adjacent in None:
+            adjasent = set()
+
+        assert isinstance(adjacent, set), "adjacent must be a set"
+
+        self.name = name
+        self.adjacent = adjacent
+    
+    def __repr__(self):
+        """Debugging-friendly representation"""
+
+        return f"<PersonNode: {self.name}>"
+
+class FriendGraph:
+        """Graph holding people and their friends"""
+
+        def __init__(self):
+            """Create an empty graph"""
+
+            self.nodes = set()
+
+        def __repr__(self):
+            return f"<FriendGraph: {{n.name for n in self.nodes}}>"  
+
+        def add_person(self, person):
+            """Adds a person"""
+
+            self.nodes.add(person)
+        
+        def set_friends(self, person1, person2):
+            """Sets two people as friends"""
+
+            person1.adjacent.add(person2)
+            person2.adjacent.add(person1)
+
+        def are_connected(self, person1, target_person):
+        """Breadth-first search"""
+            
+            possibel_nodes = Queue()
+            seen = set()
+            possible_nodes.enqueue(person1)
+            seen.add(person1)
+
+            while not possible_nodes.is_empty():
+                person_to_check = possibel_nodes.dequeue()
+                print("checking", person_to_check)
+                if person_to_check is target_person:
+                    return True
+                else:
+                    for a_node in person.adjasent - seen: #sets can be substracted from each other
+                        possibele_nodes.enqueue(a_node)
+                        seen.add(a_node)
+                        print("added to queue:", a_node)
+            return False 
+
+
 
 class MarineAnimalNode:
     """Node in a graph representing a marine animal."""
@@ -19,6 +88,12 @@ class MarineAnimalNode:
 
         return f"<MarineAnimalNode: {self.name}>"
 
+
+
+
+#####################################################################
+# Marine Food Chain
+#####################################################################
 
 class MarineFoodChainGraph:
     """Graph holding marine animals and their predator/prey relationships."""
