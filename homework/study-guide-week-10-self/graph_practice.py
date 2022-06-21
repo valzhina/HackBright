@@ -218,10 +218,9 @@ def has_path_iter(node1, target_node): #Beginniong of the solution using Class N
             stack.append(node_to_check.left)
             stack.append(node_to_check.right)
             
-    
     return False
 
-
+#Building a Graph
 n1 = Node(2)
 n2 = Node(5)
 n3 = Node(4)
@@ -253,7 +252,7 @@ n6.right = n10
 
 # print(best_path_recursive(n1))
 
-print(best_path_iter(n4, n9))
+# print(has_path_iter(n4, n9))
 
 
 
@@ -359,6 +358,8 @@ grid[i][j] is '0' or '1'.
 
 #####################################################################
 #207. Course Schedule
+#####################################################################
+
 """
 There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
@@ -392,6 +393,7 @@ All the pairs prerequisites[i] are unique.
 
 #####################################################################
 #210. Course Schedule II
+#####################################################################
 """
 There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
@@ -429,6 +431,7 @@ All the pairs [ai, bi] are distinct.
 
 #####################################################################
 #994. Rotting Oranges
+#####################################################################
 """
 You are given an m x n grid where each cell can have one of three values:
 
@@ -468,6 +471,7 @@ grid[i][j] is 0, 1, or 2.
 
 #####################################################################
 #417. Pacific Atlantic Water Flow
+#####################################################################
 
 """
 There is an m x n rectangular island that borders both the Pacific Ocean and Atlantic Ocean. The Pacific Ocean touches the island's left and top edges, and the Atlantic Ocean touches the island's right and bottom edges.
@@ -502,6 +506,7 @@ n == heights[r].length
 
 #####################################################################
 #79. Word Search
+#####################################################################
 
 """
 Given an m x n grid of characters board and a string word, return true if word exists in the grid.
