@@ -1,12 +1,11 @@
 # ------ #
 # Graphs #
 # ------ #
+from collections import deque
 
 #####################################################################
-#Is there a path/ Node and Graph Class 
+#Is there a path/ Node and Friends Graph Class 
 #####################################################################
-
-import collections
 
 class PersonNode:
     """Node is a graph representation of a person """
@@ -15,107 +14,160 @@ class PersonNode:
         """Create a person node with friends adjacent"""
 
         if adjacent is None:
-            adjasent = set()
-
+            adjacent = set()
         assert isinstance(adjacent, set), "adjacent must be a set"
-
         self.name = name
         self.adjacent = adjacent
-    
+
     def __repr__(self):
         """Debugging-friendly representation"""
 
         return f"<PersonNode: {self.name}>"
 
+
+
+
 class FriendGraph:
-        """Graph holding people and their friends"""
+    """Graph holding people and their friends"""
 
-        def __init__(self):
-            """Create an empty graph"""
+    def __init__(self):
+        """Create an empty graph"""
+        self.nodes = set()
 
-            self.nodes = set()
+    def __repr__(self):
+        return f"<FriendGraph: {[n.name for n in self.nodes]}>"  
 
-        def __repr__(self):
-            return f"<FriendGraph: {{n.name for n in self.nodes}}>"  
+    def add_person(self, person):
+        """Adds a person"""
+        self.nodes.add(person)
+    
+    def set_friends(self, person1, person2):
+        """Sets two people as friends"""
+        person1.adjacent.add(person2)
+        person2.adjacent.add(person1)
 
-        def add_person(self, person):
-            """Adds a person"""
 
-            self.nodes.add(person)
-        
-        def set_friends(self, person1, person2):
-            """Sets two people as friends"""
+def are_connected(person1, target_person):
+    """Breadth-first search"""
+    possible_nodes = deque()
+    seen = set()
+    possible_nodes.append(person1)
+    seen.add(person1)
 
-            person1.adjacent.add(person2)
-            person2.adjacent.add(person1)
+    while possible_nodes:
+        person_to_check = possible_nodes.popleft()
+        print("checking", person_to_check)
+        if person_to_check == target_person:
+            return True
+        else:
+            for a_node in person_to_check.adjacent - seen: #sets can be substracted from each other
+                possible_nodes.append(a_node)
+                seen.add(a_node)
+                print("added to queue:", a_node)
+    return False 
 
-        def are_connected(self, person1, target_person):
-            """Breadth-first search"""
-            
-            possible_nodes = Queue()
-            seen = set()
-            possible_nodes.enqueue(person1)
-            seen.add(person1)
 
-            while not possible_nodes.is_empty():
-                person_to_check = possible_nodes.dequeue()
-                print("checking", person_to_check)
-                if person_to_check is target_person:
-                    return True
-                else:
-                    for a_node in person_to_check.adjasent - seen: #sets can be substracted from each other
-                        possible_nodes.enqueue(a_node)
-                        seen.add(a_node)
-                        print("added to queue:", a_node)
-            return False 
 
-        def are_connected_recursive(self, person1, target_person, seen=None):
-            """Recursive depth-first search"""
-            if not seen:
-                seen = set()
-            
-            if person1 in target_person:
+def are_connected_recursive(person1, target_person, seen=None):
+    """Recursive depth-first search"""
+    if not seen:
+        seen = set()
+    
+    if person1 == target_person:
+        return True
+
+    seen.add(person1)
+    print("adding", person1)
+
+    for person_to_check in person1.adjacent:
+        if person_to_check not in seen:
+            if are_connected_recursive(person_to_check, target_person, seen):
                 return True
+    return False
 
-            seen.add(person1)
-            print("adding", person1)
+def are_connected_dfs(person1, target_person):
+    """Depth-first search"""
 
-            for person_to_check in person1.adjacent:
+    stack = [] # creating a set via Queue
+    seen = set()
+    stack.append(person1) # adding really first node to a queue
+    seen.add(person1)
 
-                if person_to_check not in seen:
+    while stack:
+        node_to_check = stack.pop()
+        if node_to_check == target_person:
+            return True
+        else:
+            for item in node_to_check.adjacent:
+                if item not in seen:
+                    stack.append(item)
+                    seen.add(item)
+                    print("added to queue:", item)
 
-                    if self.are_connected_recursive(person_to_check, target_person, seen):
-                        return True
+    return False
 
-            return False
+n1 = PersonNode(2)
+n2 = PersonNode(5)
+n3 = PersonNode(4)
+n4 = PersonNode(3)
+n5 = PersonNode(4)
+n6 = PersonNode(7)
+n7 = PersonNode(1)
+n8 = PersonNode(6)   
+n9 = PersonNode(9)
+n10 = PersonNode(6)
 
+n1.adjacent.add(n2)
+n1.adjacent.add(n3)
+
+n2.adjacent.add(n4)
+n2.adjacent.add(n5)
+
+n3.adjacent.add(n6)
+
+n4.adjacent.add(n7)
+n5.adjacent.add(n8)
+
+n6.adjacent.add(n9)
+n6.adjacent.add(n10)
+
+# print(are_connected_recursive(n2, n9)) -> False
+# print(are_connected_recursive(n2, n7)) -> True
+
+# print(are_connected(n2, n9)) -> False
+# print(are_connected(n2, n7)) -> True
+
+# print(are_connected_dfs(n2, n9))
+# print(are_connected_dfs(n2, n7))
 
 #####################################################################
 # Is there a path // Graph without Class 
 #####################################################################
 
-from collections import deque
+def are_connected_via_gr(graph, node1, target_node):
+    """Breadth-first search"""
+    
+    possible_nodes = deque() # creating a set via Queue
+    seen = set()
+    possible_nodes.append(node1) # adding really first node to a queue
+    seen.add(node1) # adding a node to a set
 
-def are_connected(graph, node1, target_node):
-        """Breadth-first search"""
-        
-        possible_nodes = deque() # creating a set via Queue
-        seen = set()
-        possible_nodes.append(node1) # adding really first node to a queue
-        seen.add(node1) # adding a node to a set
+    while possible_nodes: # while queue exists
+        node_to_check = possible_nodes.popleft() # removing first element from queue and storing it in a varieble
+        print("checking", node_to_check)
+        if node_to_check == target_node:
+            return True
+        else:
+            for item in graph[node_to_check]: #iterating through neighbours
+                if item not in seen: #substracting neighbours that we have seen
+                    possible_nodes.append(item) # adding neighbouring nodes to a queue
+                    seen.add(item) # marking neighbouring nodes as seen
+                    print("added to queue:", item)
+    return False 
 
-        while possible_nodes: # while queue exists
-            node_to_check = possible_nodes.popleft() # removing first element from queue and storing it in a varieble
-            print("checking", node_to_check)
-            if node_to_check == target_node:
-                return True
-            else:
-                for item in graph[node_to_check]: #iterating through neighbours
-                    if item not in seen: #substracting neighbours that we have seen
-                        possible_nodes.append(item) # adding neighbouring nodes to a queue
-                        seen.add(item) # marking neighbouring nodes as seen
-                        print("added to queue:", item)
-        return False 
+
+# graph = {0:[1,2,3], 1:[0,2],2:[0,1],3:[0],4:[2]}
+# print(are_connected_via_gr(graph, 0, 4))
 
 
 #####################################################################
@@ -131,26 +183,79 @@ def are_connected(graph, node1, target_node):
 
 
 class Node:
-    def __init__(self, val):
-        self.val = val
+    """Creation of Node Class"""
+    def __init__(self, value):
+        self.value = value
         self.left = None
         self.right = None
 
 
-def best_path(node):
-    
+def best_path_recursive(node):
+    """Resursive Solution"""
     if not node:
         return 0
 
-    lc = best_path(node.left)
-    rc = best_path(node.right)
+    left_child = best_path_recursive(node.left)
+    right_child = best_path_recursive(node.right)
 
-    best_child = max(lc, rc)
+    bigest_child = max(left_child, right_child)
 
-    return best_child + node.val
+    return bigest_child + node.value
 
-if __name__ == "__main__":
-    graph = {0:[1,2,3], 1:[0,2],2:[0,1],3:[0],4:[2]}
+
+
+def has_path_iter(node1, target_node): #Beginniong of the solution using Class Node
+    """Iterative Solution  Depth-first search"""
+        
+    stack = [] # creating a set via Queue
+    stack.append(node1) # adding really first node to a queue
+
+    while stack:
+        node_to_check = stack.pop()
+        if node_to_check == target_node:
+            return True
+        elif  node_to_check:
+            stack.append(node_to_check.left)
+            stack.append(node_to_check.right)
+            
+    
+    return False
+
+
+n1 = Node(2)
+n2 = Node(5)
+n3 = Node(4)
+n4 = Node(3)
+n5 = Node(4)
+n6 = Node(7)
+n7 = Node(1)
+n8 = Node(6)   
+n9 = Node(9)
+n10 = Node(6)
+
+n1.left = n2
+n1.right = n3
+
+n2.left = n4
+n2.right = n5
+
+n3.left = n5
+n3.right = n6
+
+n4.left = n7
+n4.right = n8
+
+n5.left = n8
+n5.right = n9
+
+n6.left = n9
+n6.right = n10
+
+# print(best_path_recursive(n1))
+
+print(best_path_iter(n4, n9))
+
+
 
 #####################################################################
 # Marine Food Chain
@@ -218,22 +323,9 @@ class MarineFoodChainGraph:
 
 
 #####################################################################
-# END OF ASSIGNMENT: You can ignore everything below.
-
-if __name__ == "__main__":
-    import doctest
-
-    # print()
-    # result = doctest.testmod()
-    # if not result.failed:
-    #     print("ALL TESTS PASSED. GOOD WORK!")
-    # print()
-
-
-
-
-#####################################################################
 #200. Number of Islands
+#####################################################################
+
 """
 Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
 An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
@@ -444,79 +536,5 @@ n = board[i].length
 board and word consists of only lowercase and uppercase English letters.
 """
 
-from collections import deque
-def are_connected(graph, node1, target_node):
-        """Breadth-first search"""
-        
-        possible_nodes = deque() # creating a set via Queue
-        seen = set()
-        possible_nodes.append(node1) # adding really first node to a queue
-        seen.add(node1) # adding a node to a set
 
-        while possible_nodes: # while queue exists
-            node_to_check = possible_nodes.popleft() # removing first element from queue and storing it in a varieble
-            print("checking", node_to_check)
-            if node_to_check == target_node:
-                return True
-            else:
-                for item in graph[node_to_check]: #iterating through neighbours
-                    if item not in seen: #substracting neighbours that we have seen
-                        possible_nodes.append(item) # adding neighbouring nodes to a queue
-                        seen.add(item) # marking neighbouring nodes as seen
-                        print("added to queue:", item)
-        return False 
-
-class Node:
-    def __init__(self, val):
-        self.val = val
-        self.left = None
-        self.right = None
-
-
-def best_path(node):
-    
-    if not node:
-        return 0
-
-    lc = best_path(node.left)
-    rc = best_path(node.right)
-
-    best_child = max(lc, rc)
-
-    return best_child + node.val
-
-if __name__ == "__main__":
-    graph = {0:[1,2,3], 1:[0,2],2:[0,1],3:[0],4:[2]}
-    
-    n1 = Node(2)
-    n2 = Node(5)
-    n3 = Node(4)
-    n4 = Node(3)
-    n5 = Node(4)
-    n6 = Node(7)
-    n7 = Node(1)
-    n8 = Node(6)   
-    n9 = Node(9)
-    n10 = Node(6)
-
-    n1.left = n2
-    n1.right = n3
-
-    n2.left = n4
-    n2.right = n5
-
-    n3.left = n5
-    n3.right = n6
-
-    n4.left = n7
-    n4.right = n8
-
-    n5.left = n8
-    n5.right = n9
-
-    n6.left = n9
-    n6.right = n10
-
-    print(best_path(n1))
-    # print(are_connected(graph, 0, 4))
-    # breadth_first_search(graph,0)
+# if __name__ == "__main__":
