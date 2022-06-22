@@ -254,7 +254,25 @@ n6.right = n10
 
 # print(has_path_iter(n4, n9))
 
+#####################################################################
+# Depth First Print (Search) via Hashmap(dictionapy in Python)  
+#####################################################################
 
+def depth_first_search_print(graph, source):
+    print(source)
+    for item in graph[source]:
+        dfp(graph, item)
+
+
+
+graph = {'a':['b','c'],
+         'b':['d'],
+         'c':['e'],
+         'd':['f'],
+         'e':[],
+         'f':[]}
+
+depth_first_search_print(graph,'a')
 
 #####################################################################
 # Marine Food Chain
