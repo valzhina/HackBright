@@ -259,20 +259,94 @@ n6.right = n10
 #####################################################################
 
 def depth_first_search_print(graph, source):
+    """Recursive solution"""
     print(source)
-    for item in graph[source]:
-        dfp(graph, item)
+    for neighbour in graph[source]:
+        depth_first_search_print(graph, neighbour)
 
 
+# graph = {'a':['b','c'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
 
-graph = {'a':['b','c'],
+# depth_first_search_print(graph,'a')
+
+#Option II
+def depth_first_search_print_iter(graph, source):
+
+    stack = [source]
+   
+    while stack:
+        current = stack.pop()
+        stack += graph[current] # add neighbours into stack by using key = 'a'(source), so value will be neighbours of 'a' ['c','b']
+        print(current)
+   
+
+graph = {'a':['c','b'],
          'b':['d'],
          'c':['e'],
          'd':['f'],
          'e':[],
          'f':[]}
 
-depth_first_search_print(graph,'a')
+depth_first_search_print_iter(graph,'a')
+
+#####################################################################
+#Avarage of level
+#####################################################################
+
+class Node(object):
+    def __init__(self, v):
+        self.value = v
+        self.left = None
+        self.right = None
+
+def cruise(node, data, depth = 0):
+    if not node:
+        return None
+     if level not in data:
+        data[level] = []
+       
+    data[level].append(node.val)
+
+    cruise(data, node.left, level+1)
+    cruise(data, node.right, level+1)
+   
+def average(node):
+   
+    data = {}
+    cruise(data, node, 0)
+   
+    result = []
+   
+    i = 0
+    while i in data:
+        avg = sum(data[i]) / len(data[i])
+        result.append(avg)
+        i+=1
+    return result
+
+
+n2 = Node(2)
+n3 = Node(3)
+n5 = Node(5)
+n6 = Node(6)
+n7 = Node(7)
+n9 = Node(9)
+n10 = Node(10)
+
+n2.left = n3
+n3.left = n6
+n5.left = n9
+
+n2.right = n5
+n6.right = n7
+n5.right = n10
+
+average(n2)
 
 #####################################################################
 # Marine Food Chain
