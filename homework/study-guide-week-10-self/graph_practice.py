@@ -276,7 +276,7 @@ def depth_first_search_print(graph, source):
 
 #Option II
 def depth_first_search_print_iter(graph, source):
-
+    """Iterative Solution"""
     stack = [source]
    
     while stack:
@@ -285,41 +285,46 @@ def depth_first_search_print_iter(graph, source):
         print(current)
    
 
-graph = {'a':['c','b'],
-         'b':['d'],
-         'c':['e'],
-         'd':['f'],
-         'e':[],
-         'f':[]}
+# graph = {'a':['c','b'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
 
-depth_first_search_print_iter(graph,'a')
+# depth_first_search_print_iter(graph,'a')
 
 #####################################################################
-#Avarage of level
+#Avarage of level 
 #####################################################################
 
-class Node(object):
-    def __init__(self, v):
-        self.value = v
+class AvrNode(object):
+    """initial Node"""
+    def __init__(self, value):
+        self.value = value
         self.left = None
         self.right = None
 
-def cruise(node, data, depth = 0):
+def cruise(node, data, level = 0):
+    """Creating a collection"""
+    print('HERE')
     if not node:
         return None
-     if level not in data:
+    print(node.value)
+    if level not in data:
         data[level] = []
        
-    data[level].append(node.val)
+    data[level].append(node.value)
 
-    cruise(data, node.left, level+1)
-    cruise(data, node.right, level+1)
+    cruise(data, node.left, level + 1)
+    cruise(data, node.right, level + 1)
    
 def average(node):
+    """Calculating Avr"""
    
     data = {}
     cruise(data, node, 0)
-   
+    print(data)
     result = []
    
     i = 0
@@ -329,14 +334,21 @@ def average(node):
         i+=1
     return result
 
+#       2 (Node1)
+#      /\
+#     3  5 
+#    /  /\
+#   6  9  10 
+#    \
+#     7   
 
-n2 = Node(2)
-n3 = Node(3)
-n5 = Node(5)
-n6 = Node(6)
-n7 = Node(7)
-n9 = Node(9)
-n10 = Node(10)
+n2 = AvrNode(2)
+n3 = AvrNode(3)
+n5 = AvrNode(5)
+n6 = AvrNode(6)
+n7 = AvrNode(7)
+n9 = AvrNode(9)
+n10 = AvrNode(10)
 
 n2.left = n3
 n3.left = n6
@@ -346,8 +358,8 @@ n2.right = n5
 n6.right = n7
 n5.right = n10
 
-average(n2)
-
+print(average(n2))
+print(n2.value)
 #####################################################################
 # Marine Food Chain
 #####################################################################
