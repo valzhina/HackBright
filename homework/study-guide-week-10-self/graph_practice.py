@@ -4,11 +4,11 @@
 from collections import deque
 
 #####################################################################
-# Is there a path // Graph without Class 
+# Is there a path // Graph without creation of a Class  via Hashmap 
 #####################################################################
 
 def are_connected_via_gr(graph, node1, target_node):
-    """Iterative Breadth-first search"""
+    """Iterative Breadth-first search has path"""
     
     possible_nodes = deque() # creating a set via Queue
     seen = set()
@@ -32,9 +32,31 @@ def are_connected_via_gr(graph, node1, target_node):
 # graph = {0:[1,2,3], 1:[0,2],2:[0,1],3:[0],4:[2]}
 # print(are_connected_via_gr(graph, 0, 4))
 
+def breadth_first_search(graph, source, destination):
+    """Breadth-first search simple solution has path"""
+    q = deque([source])
+   
+    while len(q)>0:
+        cur = q.popleft()
+        if cur == destination:
+            return True
+        for v in graph[cur]:
+            q.append(v)
+    return False
+
+# graph = {'a':['c','b'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
+
+# breadth_first_search(graph, 'a', 'b')
+
+
 
 def has_path_dfs_rec(graph, source, destination):
-    """Depth-first search Recurcive"""
+    """Depth-first search Recurcive has path"""
 
     if source==destination:
         return True
@@ -51,25 +73,6 @@ def has_path_dfs_rec(graph, source, destination):
 #          'f':[]}
 
 # print(has_path_dfs_rec(graph_new, 'a', 'g'))
-
-def breadth_first_search(graph, source):
-    """Breadth-first search"""
-    q = deque([source])
-   
-    while q:
-        cur = q.popleft()
-        print(cur)
-        for v in graph[cur]:
-            q.append(v)
-
-# graph = {'a':['c','b'],
-#          'b':['d'],
-#          'c':['e'],
-#          'd':['f'],
-#          'e':[],
-#          'f':[]}
-
-# breadth_first_search(graph, 'a')
 
 
 #####################################################################
@@ -112,41 +115,13 @@ def depth_first_search_print_iter(graph, source):
 
 # depth_first_search_print_iter(graph,'a')
 
+
+
 # #####################################################################
-# #Avarage of level 
+# #
 # #####################################################################
-
-# def hasPathBFS(graph, src, dst):
-#     q = deque([src])
-   
-#     while len(q)>0:
-#         cur = q.popleft()
-#         if cur==dst:
-#             return True
-#         for v in graph[cur]:
-#             q.append(v)
-#     return False
-   
-
-                         
-# graph = {'a':['c','b'],
-#          'b':['d'],
-#          'c':['e'],
-#          'd':['f'],
-#          'e':[],
-#          'f':[]}
-
-# hasPathBFS(graph, 'a', 'f')
-
-
-
-
 
 # edges = [['i','j'],['k','i'],['m','k'],['k','l'],['o','n']]
-
-# #####################################################################
-# #Avarage of level 
-# #####################################################################
 
 # def undirectedPath(edges, nodeA, nodeB):
 #     graph = buildGraph(edges)
@@ -167,7 +142,7 @@ def depth_first_search_print_iter(graph, source):
 #     return False
 
 # #####################################################################
-# #Avarage of level 
+# #
 # #####################################################################
 
 # def buildGraph(edges):
@@ -197,22 +172,23 @@ def depth_first_search_print_iter(graph, source):
 # #####################################################################
 # Connected Components in the graph
 # #####################################################################
-# '''
-# Given an undirected graph, the task is to print the number of connected components in the graph.
-# '''
+'''
+Given an undirected graph, the task is to print the number of connected components in the graph.
 
-# ccc_graph = {0:[8,1,5],
-#             1:[0],
-#             2:[3,4],
-#             3:[2,4],
-#             4:[3,2],
-#             5:[0,8],
-#             8:[0,5]}
+ccc_graph = {0:[8,1,5],
+            1:[0],
+            2:[3,4],
+            3:[2,4],
+            4:[3,2],
+            5:[0,8],
+            8:[0,5]}
 
-# In this task we must visit each node so the best complexity is O(N)
-# I will write a code that traverses each node and their connected node. If it is an unknown node for us, I will add to count
-# def ccc(graph):
-    
+In this task we must visit each node so the best complexity is O(N)
+I will write a code that traverses each node and their connected node. If it is an unknown node for us, I will add to count
+'''
+
+def ccc(graph):
+    """Counting components """
     count = 0
     # as we need to keep track of visited nodes, I create hash set
     visited = set()
@@ -224,30 +200,16 @@ def depth_first_search_print_iter(graph, source):
     return count
 
 def explore(graph, key, visited):
+    """Exploring Graph """
     if key in visited:
         return
     visited.add(key)
     for item in graph[key]:
         explore(graph, item, visited)
+    return True
 
+# print (ccc(ccc_graph))     
 
-# print (ccc(ccc_graph))       
-# def ccc(ccc_graph):
-#     visited = set()
-#     res = 0
-#     for k in ccc_graph:
-#         if xplore(ccc_graph, k, visited):
-#             res+=1
-#     return res
-
-# def xplore(ccc_graph, node, visited):
-#     if node in visited:
-#         return False
-#     visited.add(node)
-#     for n in ccc_graph[node]:
-#         xplore(ccc_graph, n, visited)
-#     return True
-# ccc(ccc_graph)    
 
 # #####################################################################
 # Largest Component
@@ -575,27 +537,6 @@ n = board[i].length
 1 <= word.length <= 15
 board and word consists of only lowercase and uppercase English letters.
 """
-
-#####################################################################
-# Connected components count
-#####################################################################
-
-'''
-Given an undirected graph, the task is to print the number of connected components in the graph.
-'''
-
-ccc_graph = {0:[8,1,5],
-            1:[0],
-            2:[3,4],
-            3:[2,4],
-            4:[3,2],
-            5:[0,8],
-            8:[0,5]}
-
-# In this task we must visit each node so the best complexity is O(N)
-# I will write a code that traverses each node and their connected node. If it is an unknown node for us, I will add to count
-
-
 
 
 
