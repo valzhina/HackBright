@@ -25,8 +25,6 @@ class PersonNode:
         return f"<PersonNode: {self.name}>"
 
 
-
-
 class FriendGraph:
     """Graph holding people and their friends"""
 
@@ -47,8 +45,10 @@ class FriendGraph:
         person2.adjacent.add(person1)
 
 
+
+#Option 1
 def are_connected(person1, target_person):
-    """Breadth-first search"""
+    """Breadth-first search using Class *Node"""
     possible_nodes = deque()
     seen = set()
     possible_nodes.append(person1)
@@ -67,9 +67,9 @@ def are_connected(person1, target_person):
     return False 
 
 
-
+#Option 2
 def are_connected_recursive(person1, target_person, seen=None):
-    """Recursive depth-first search"""
+    """Recursive depth-first search using Class *Node"""
     if not seen:
         seen = set()
     
@@ -86,7 +86,7 @@ def are_connected_recursive(person1, target_person, seen=None):
     return False
 
 def are_connected_dfs(person1, target_person):
-    """Depth-first search"""
+    """Iterative Depth-first search using Class *Node"""
 
     stack = [] # creating a set via Queue
     seen = set()
@@ -145,7 +145,7 @@ n6.adjacent.add(n10)
 #####################################################################
 
 def are_connected_via_gr(graph, node1, target_node):
-    """Breadth-first search"""
+    """Iterative Breadth-first search"""
     
     possible_nodes = deque() # creating a set via Queue
     seen = set()
@@ -168,6 +168,26 @@ def are_connected_via_gr(graph, node1, target_node):
 
 # graph = {0:[1,2,3], 1:[0,2],2:[0,1],3:[0],4:[2]}
 # print(are_connected_via_gr(graph, 0, 4))
+
+
+def has_path_dfs_rec(graph, source, destination):
+    """Depth-first search Recurcive"""
+
+    if source==destination:
+        return True
+    for v in graph[source]:
+        if has_path_dfs_rec(graph, v, destination):
+            return True
+    return False
+
+# graph_new = {'a':['c','b'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
+
+# print(has_path_dfs_rec(graph_new, 'a', 'g'))
 
 
 #####################################################################
@@ -255,7 +275,7 @@ n6.right = n10
 # print(has_path_iter(n4, n9))
 
 #####################################################################
-# Depth First Print (Search) via Hashmap(dictionapy in Python)  
+# Depth First Print (Search) via Hashmap 
 #####################################################################
 
 def depth_first_search_print(graph, source):
@@ -295,44 +315,277 @@ def depth_first_search_print_iter(graph, source):
 # depth_first_search_print_iter(graph,'a')
 
 #####################################################################
-#Avarage of level 
+#Breadth First Search
+#####################################################################
+from collections import deque
+
+def breadth_first_search(graph, source):
+   
+    q = deque([source])
+   
+    while q:
+        cur = q.popleft()
+        print(cur)
+        for v in graph[cur]:
+            q.append(v)
+
+
+# graph = {'a':['c','b'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
+
+# breadth_first_search(graph, 'a')
+
+#####################################################################
+#
 #####################################################################
 
-class AvrNode(object):
-    """initial Node"""
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
 
-def cruise(node, data, level = 0):
-    """Creating a collection"""
-    print('HERE')
-    if not node:
-        return None
-    print(node.value)
-    if level not in data:
-        data[level] = []
+# #####################################################################
+# #Avarage of level 
+# #####################################################################
+# def hasPathBFS(graph, src, dst):
+#     q = deque([src])
+   
+#     while len(q)>0:
+#         cur = q.popleft()
+#         if cur==dst:
+#             return True
+#         for v in graph[cur]:
+#             q.append(v)
+#     return False
+   
+
+                         
+# graph = {'a':['c','b'],
+#          'b':['d'],
+#          'c':['e'],
+#          'd':['f'],
+#          'e':[],
+#          'f':[]}
+
+# hasPathBFS(graph, 'a', 'f')
+
+
+
+
+
+# edges = [['i','j'],['k','i'],['m','k'],['k','l'],['o','n']]
+
+# #####################################################################
+# #Avarage of level 
+# #####################################################################
+
+# def undirectedPath(edges, nodeA, nodeB):
+#     graph = buildGraph(edges)
+   
+#     visited = set()
+#     stack = [nodeA]
+   
+#     while len(stack)>0:
+#         cur =stack.pop()
+#         visited.add(cur)
        
-    data[level].append(node.value)
+#         if cur==nodeB:
+#             return True
+       
+#         for v in graph[cur]:
+#             if v not in visited:
+#                 stack.append(v)
+#     return False
 
-    cruise(data, node.left, level + 1)
-    cruise(data, node.right, level + 1)
+# #####################################################################
+# #Avarage of level 
+# #####################################################################
+
+# def buildGraph(edges):
+#     graph = {}
+#     for e in edges:
+#         a, b = e
+#         if a not in graph:
+#             graph[a] = []
+#         graph[a].append(b)
+#         if b not in graph:
+#             graph[b] = []
+#         graph[b].append(a)
    
-def average(node):
-    """Calculating Avr"""
-   
-    data = {}
-    cruise(data, node, 0)
-    print(data)
-    result = []
-   
-    i = 0
-    while i in data:
-        avg = sum(data[i]) / len(data[i])
-        result.append(avg)
-        i+=1
+#     return graph
+       
+# undirectedPath(edges, 'm', 'o')       
+
+
+# ccc_graph = {0:[8,1,5],
+#             1:[0],
+#             2:[3,4],
+#             3:[2,4],
+#             4:[3,2],
+#             5:[0,8],
+#             8:[0,5]}
+
+# #####################################################################
+# Connected Components in the graph
+# #####################################################################
+# '''
+# Given an undirected graph, the task is to print the number of connected components in the graph.
+# '''
+
+# ccc_graph = {0:[8,1,5],
+#             1:[0],
+#             2:[3,4],
+#             3:[2,4],
+#             4:[3,2],
+#             5:[0,8],
+#             8:[0,5]}
+
+# In this task we must visit each node so the best complexity is O(N)
+# I will write a code that traverses each node and their connected node. If it is an unknown node for us, I will add to count
+# def ccc(graph):
+    
+    count = 0
+    # as we need to keep track of visited nodes, I create hash set
+    visited = set()
+    
+    for key in graph:
+        if key not in visited:
+            explore(graph, key, visited)
+            count+=1
+    return count
+
+def explore(graph, key, visited):
+    if key in visited:
+        return
+    visited.add(key)
+    for item in graph[key]:
+        explore(graph, item, visited)
+
+
+# print (ccc(ccc_graph))       
+# def ccc(ccc_graph):
+#     visited = set()
+#     res = 0
+#     for k in ccc_graph:
+#         if xplore(ccc_graph, k, visited):
+#             res+=1
+#     return res
+
+# def xplore(ccc_graph, node, visited):
+#     if node in visited:
+#         return False
+#     visited.add(node)
+#     for n in ccc_graph[node]:
+#         xplore(ccc_graph, n, visited)
+#     return True
+# ccc(ccc_graph)    
+
+# #####################################################################
+# Largest Component
+# #####################################################################
+"""Return the number of nodesin the largest of components of a graph"""
+
+def largest_component(ccc_graph):
+    """Through hash set"""
+    visited = set()
+    result = 0
+    for key in ccc_graph:
+        value = explore_lc(ccc_graph, key, visited)
+        result = max(value, result)
     return result
+
+def explore_lc(ccc_graph, key, visited):
+    """ Explore Graph """
+   
+    if key in visited:
+        return 0
+
+    visited.add(key)
+
+    count = 1
+   
+    for item in ccc_graph[key]:
+        count += explore_lc(ccc_graph, item, visited)
+   
+    return count
+
+# ccc_graph = {0:[8,1,5],
+#             1:[0],
+#             2:[3,4],
+#             3:[2,4],
+#             4:[3,2],
+#             5:[0,8],
+#             8:[0,5]}
+
+# print(largest_component(ccc_graph))  
+
+
+# #####################################################################
+# 
+# #####################################################################
+
+
+# shortest_path = {'w':['x','v'],
+#                 'x':['w','y'],
+#                 'v':['w','z'],
+#                 'y':['x','z'],
+#                 'z':['y','v']}
+
+# def shortestPath(graph, src, dst):
+#     visited = set(src)
+#     q = deque([(src,0)])
+   
+#     while len(q)>0:
+#         cur, level = q.popleft()
+#         if cur==dst:
+#             return level
+       
+#         for n in  graph[cur]:
+#             if n not in visited:
+#                 visited.add(n)
+#                 q.append((n, level+1))
+#     return -1
+
+# # shortestPath(shortest_path, 'w', 'z')
+
+# #####################################################################
+# #Avarage of level 
+# #####################################################################
+
+# class AvrNode():
+#     """initial Node"""
+#     def __init__(self, value):
+#         self.value = value
+#         self.left = None
+#         self.right = None
+
+# def cruise(data,node, level = 0):
+#     """Creating a collection"""
+#     if not node:
+#         return None
+#     print(node.value)
+#     if level not in data:
+#         data[level] = []
+       
+#     data[level].append(node.value)
+
+#     cruise(data, node.left, level + 1)
+#     cruise(data, node.right, level + 1)
+   
+# def average(node):
+#     """Calculating Avr"""
+   
+#     data = {}
+#     cruise(data, node, 0)
+#     print(data)
+#     result = []
+   
+#     i = 0
+#     while i in data:
+#         avg = sum(data[i]) / len(data[i])
+#         result.append(avg)
+#         i+=1
+#     return result
 
 #       2 (Node1)
 #      /\
@@ -342,24 +595,24 @@ def average(node):
 #    \
 #     7   
 
-n2 = AvrNode(2)
-n3 = AvrNode(3)
-n5 = AvrNode(5)
-n6 = AvrNode(6)
-n7 = AvrNode(7)
-n9 = AvrNode(9)
-n10 = AvrNode(10)
+# n2 = AvrNode(2)
+# n3 = AvrNode(3)
+# n5 = AvrNode(5)
+# n6 = AvrNode(6)
+# n7 = AvrNode(7)
+# n9 = AvrNode(9)
+# n10 = AvrNode(10)
 
-n2.left = n3
-n3.left = n6
-n5.left = n9
+# n2.left = n3
+# n3.left = n6
+# n5.left = n9
 
-n2.right = n5
-n6.right = n7
-n5.right = n10
+# n2.right = n5
+# n6.right = n7
+# n5.right = n10
 
-print(average(n2))
-print(n2.value)
+# print(average(n2))
+# print(n2.value)
 #####################################################################
 # Marine Food Chain
 #####################################################################
@@ -459,6 +712,44 @@ n == grid[i].length
 grid[i][j] is '0' or '1'.
 
 """
+
+grid = [['W','W','W','W','W'],
+        ['W','W','W','W','W'],
+        ['W','W','W','W','W'],
+        ['W','W','W','W','W'],
+        ['W','W','W','W','W'],
+        ['W','L','W','W','W']]
+
+def m_island(grid):
+    visited = set()
+    mn_size = len(grid)*len(grid[0])
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j]=='L' and (i,j) not in visited:
+                temp = explore_island(grid, i, j, visited)
+                mn_size = min(mn_size, temp)
+    return mn_size
+
+def explore_island(grid, i, j, visited):
+    if i<0 or i>=len(grid) or j < 0 or j>=len(grid[0]):
+        return 0
+    if (i, j) in visited:
+        return 0
+   
+    visited.add((i,j))
+   
+    if grid[i][j]=='W':
+        return 0
+
+    size = 1
+    size += explore_island(grid, i+1, j, visited)
+    size += explore_island(grid, i-1, j, visited)
+    size += explore_island(grid, i, j+1, visited)
+    size += explore_island(grid, i, j-1, visited)
+    return size
+
+# m_island(grid)
+
 
 #####################################################################
 #207. Course Schedule
@@ -644,6 +935,28 @@ n = board[i].length
 1 <= word.length <= 15
 board and word consists of only lowercase and uppercase English letters.
 """
+
+#####################################################################
+# Connected components count
+#####################################################################
+
+'''
+Given an undirected graph, the task is to print the number of connected components in the graph.
+'''
+
+ccc_graph = {0:[8,1,5],
+            1:[0],
+            2:[3,4],
+            3:[2,4],
+            4:[3,2],
+            5:[0,8],
+            8:[0,5]}
+
+# In this task we must visit each node so the best complexity is O(N)
+# I will write a code that traverses each node and their connected node. If it is an unknown node for us, I will add to count
+
+
+
 
 
 # if __name__ == "__main__":
