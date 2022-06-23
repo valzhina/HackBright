@@ -323,6 +323,7 @@ grid = [['W','W','W','W','W'],
         ['W','L','W','W','W']]
 
 def m_island(grid):
+    """TBD"""
     visited = set()
     mn_size = len(grid)*len(grid[0])
     for i in range(len(grid)):
@@ -333,6 +334,7 @@ def m_island(grid):
     return mn_size
 
 def explore_island(grid, i, j, visited):
+    """TBD"""
     if i<0 or i>=len(grid) or j < 0 or j>=len(grid[0]):
         return 0
     if (i, j) in visited:
