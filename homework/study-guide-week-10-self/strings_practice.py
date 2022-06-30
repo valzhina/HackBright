@@ -142,8 +142,124 @@ def anagram(input1, input2):
 
 # print (anagram('xyxy', 'yxxxx'))    
         
-        
 
 ##############################################################################
+# Verifying an Alien Dictionary 01
+##############################################################################
+
+"""
+06.23 Go 
+In an alien language, surprisingly, they also use English lowercase letters, 
+but possibly in a different order. The order of the alphabet is some permutation 
+of lowercase letters.
+
+Given a sequence of words written in the alien language, and the order of the alphabet, 
+return the first and the last indexes if and only if the given words are sorted 
+lexicographically in this alien language.
 
 
+Example 1
+Input: words = ["code"], order = "lacmnoudgse"
+Output: true
+Explanation: As 'laCmnOuDgsE' comes in order, then the sequence is sorted.
+
+Example 2
+Input: words = ["code"], order = "elacmnoudgs"
+Output: false
+Explanation: As 'c' comes after 'e' in this language, then the order is not alphabetical, 
+hence the sequence is unsorted.
+"""
+
+def panalphabetic(text, alphabet):
+
+    j = 0
+    for i in range(len(text)):
+        if text[i] == alphabet[j]: #q. 'd'=='a', #2 'a'=='a'
+            if j==0: #if its first letter
+                first = i
+            j+=1
+
+        if j >=len(alphabet):
+            last = i
+            break
+
+    if not last:
+        return None
+
+    return (first, last)
+
+'dabcbbdfgh' text
+
+'abcd' alph
+
+ however it will not care if this is the shortest panalphabetic
+ 
+
+    l = 0
+    r = len(text)-1
+
+    while l < r:
+        if text[l] !=alphabet[0]:
+            l+=1
+        if text[r] != alphabet[-1]:
+            r-=1
+        if text[l]== alphabet[0] and text[r]==alphabet[-1]:
+            break
+
+##############################################################################
+# Verifying an Alien Dictionary 02
+##############################################################################
+"""
+06.23 Go 
+In an alien language, surprisingly, they also use English lowercase letters, 
+but possibly in a different order. The order of the alphabet is some permutation 
+of lowercase letters.
+
+Given a sequence of words written in the alien language, and the order of the alphabet, 
+return the first and the last indexes 'of the shortest part' if and only if the given words are sorted lexicographically in this alien language.
+
+
+Idea for second : we can keep looking for shortest when first letter 'a' appears 
+I would have helper function everytime there is 'a' I start it and return first 'd' index
+alphabet = 'abcd'
+when 'a' appears i run function that finds b, c, d, and give index of 'd'
+
+Example 1
+Input: words = ["code"], order = "lacmnoudgseqcode"
+Output: [12],[15]
+Explanation: The shortest would be 
+
+Example 2
+Input: words = ["code"], order = "elacmnoudgs"
+Output: false
+Explanation: As 'c' comes after 'e' in this language, then the order is not alphabetical, 
+hence the sequence is unsorted.
+"""
+
+
+##############################################################################
+# Verifying an Alien Dictionary 03
+##############################################################################
+"""
+LeedCode #953. Verifying an Alien Dictionary
+
+    In an alien language, surprisingly, they also use English lowercase letters, 
+but possibly in a different order. The order of the alphabet is some permutation 
+of lowercase letters.
+
+
+Given a sequence of words written in the alien language, and the order of the alphabet, 
+return true if and only if the given words are sorted lexicographically(like a dict) 
+in this alien language.
+
+Example 1
+Input: words = ["hello","leetcode"], order = "hlabcdefgijkmnopqrstuvwxyz"
+Output: true
+Explanation: As 'h' comes before 'l' in this language, then the sequence is sorted.
+
+Example 2
+Input: words = ["word","world","row"], order = "worldabcefghijkmnpqstuvxyz"
+Output: false
+Explanation: As 'd' comes after 'l' in this language, then words[0] > words[1], 
+hence the sequence is unsorted.
+"""
