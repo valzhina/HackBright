@@ -86,7 +86,7 @@ def best_time_to_buy_and_sell(prices):
 ##############################################################################
 
 """
-06.01 Goo
+06.01 Go
 Part 1
 Input [22,5,8,44,60,22,23,44]  target = 22 ->  Sorted [5,8,22,22,23,44,44,60] -> index[2,3]
 
@@ -146,7 +146,7 @@ def find_index(array:list):
 
 ##############################################################################
 
-""" Goo Practice 
+""" Go/ Practice 
 Given a collection of sorted numbers. Find a matching pair that is equal to a sum (target)
 [2,7,12,33] --> Sum 8 --> False
 [2,3,4,4] --> Sum 8 --> True
@@ -234,4 +234,116 @@ def find_match_pair(array:list, target:int):
 
 # print (find_match_pair([2,3,4,4], 8))
 # print (find_match_pair([2,3,4,9], 8))
+
+
 ##############################################################################
+# Max Font Leed Code
+##############################################################################
+
+"""
+06.23 Go
+Part 1
+Given a paper with a given width, height [10x10] and supported min/max font size[7,1,3,5,12], determine the max font a given string can be displayed in.
+Word or character can’t be broken. Imagine a method getWidth(char c, int fontSize) and getHeight(int fontSize) are given.
+
+   3   3   3  1
+3 111 111 111 1
+3 111 111 111 1
+3 111 111 111 1
+1  1   1   1
+
+   3   3   3  1
+1 1T1 1h1 1e1 1
+2 1*1 1s1 1k1 1
+3 1y1 111 111 1 --> True
+
+     7     3
+7 111t111 111
+3 111         --> False
+"""
+
+def fit_check(sentence, font_size, paper):
+    length = len(sentence)
+    
+    possible_char_w = paper[0] % font_size # 10//3 --> 3
+    possible_char_h = paper[1] % font_size # 10//3 --> 3
+
+    if possible_char_w * possible_char_h >= length:
+        return True
+    return False
+
+def find_max(sentence, font_size, paper):
+    result = fit_check(sentence, font_size, paper)
+
+
+##############################################################################
+# Plank
+##############################################################################
+"""Given an array: 
+
+A road with potholes: [=,o,=,=,o,=,o,=,=,o,o,o,=,o]
+Another array plank that can cover some road:[x], For example [7]
+Plank:                [=,=,=,=,=,=,=]
+Result1:                            [ , ,o,o,o, ,o] --> 4 potholes stay ancovered
+Result2:                          [ ,o, ]+[o,o, ,o] --> 4 potholes stay ancovered
+Result3:                            [ ,o, , ,o, ,o] --> 3 potholes stay ancovered --> Best Result Return
+
+"""
+def planks(street, plank[int]):
+    
+    i = 0
+    result = len(street) # chose max len possible
+ 
+    while i<len(street)-plank:
+        if street[i]== True: # if we use line 25 we need it if we don't use line 25 we dont need it
+            potholes = check_potholes(street, i, plank)
+            result = min(result, potholes)
+            while i<len(street) and street[i]==True: # here we pass all true values YOU NEED IT
+                i+=1
+        i+=1 
+    return result
+
+
+def check_potholes(street, i, plank):
+    s1 = street.copy() # not to modify original street
+    
+    while i < len(s1) and plank > 0:
+        s1[i]=False
+        plank-=1
+        i+=1
+    
+    return sum(s1)
+
+
+##############################################################################
+# Go  
+##############################################################################
+'''
+c. Given multiple unsorted lists, how can you quickly merge them?
+
+a. find the longest substring with n different letters
+"aababcd", n=3 => "aababc"
+
+b. find number who has a pair in array (even negative number)
+
+[1,2,3,4,5,-5] => return 5
+
+given two binary trees, return true/false if one is a subtree of another.
+
+coding question on birthday candle problem.
+
+Binary search tree problem, A lot of string problems
+
+DSA
+
+a knapsack problem
+
+What is the time complexity of Djikstra's Algorithm
+
+Linked list version of the "Island Counting" problem
+
+Why should one use merge sort over quick sort and vice-versa?
+
+
+
+'''
