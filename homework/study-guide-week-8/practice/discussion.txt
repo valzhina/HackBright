@@ -1,0 +1,77 @@
+Runtime
+-------
+
+1. When calculating the Big O notation for a particular algorithm, it's necessary
+to consider the length of time it takes for the algorithm to run as the algorithm's
+workload approaches infinity. What determines the **workload** of figuring out
+whether your box of animal crackers contains an elephant?
+
+
+2. Order the following runtimes in descending order of efficiency (that is,
+	fastest runtimes first, slowest last) as `n` approaches infinity:
+
+   - O(log n)
+
+   - O(n^2)
+
+   - O(n log n)
+
+   - O(n)
+
+   - O(2^n)
+
+   - O(1)
+
+
+In the file called `runtime.py`, there are 5 functions.
+
+1. What is the runtime for `string_compare`?
+
+2. What is the runtime for `has_exotic_animals`?
+
+3. What is the runtime for `sum_zero_1`?
+
+4. What is the runtime for `sum_zero_2`?
+
+5. What is the runtime for `sum_zero_3`?
+
+
+Stacks and Queues
+-----------------
+
+1. In the following cases, would a stack or queue be a more appropriate data
+	structure?
+
+  - The process of loading and unloading pallets onto a flatbed truck
+
+  - Putting bottle caps on bottles of beer as they roll down an assembly line
+
+
+2. Describe two more situations where a queue would be an appropriate data
+	structure.
+
+3. Describe two more situations where a stack would be an appropriate data
+	structure.
+
+
+Linked Lists
+------------
+
+1. Given the linked list shown in the instructions, which are the nodes? What is
+the data for each node? Where is the head? Where is the tail? (Be as specific as
+possible --- exactly which parts of the diagram correspond to each part? Arrows?
+Boxes? Text?)
+
+2. What's the difference between doubly- and singly-linked lists?
+
+3. Why is it faster to append to a linked list if we keep track of the `tail`
+as an attribute?
+
+Trees
+-----
+
+1. What would be the best data structure to use for keeping track of nodes to
+	visit during a Breadth First Search of a tree?
+
+2. What would be the best data structure to use for keeping track of nodes to
+	visit during a Depth First Search of a tree?
